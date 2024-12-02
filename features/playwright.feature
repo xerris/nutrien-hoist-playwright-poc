@@ -6,7 +6,7 @@ Feature: Playwright docs
 
   Scenario: Change theme
     Given Use Fake time "2021-01-01"
-    Given A cat fact is recieved
+    Given A cat fact is received
     When Change theme to "light" mode
     # And Screen matches the base image "Light Mode"
     Then We see "light" mode
