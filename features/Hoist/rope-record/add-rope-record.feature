@@ -6,10 +6,10 @@ Feature: Rope Records
 
   Scenario: Add rope record
     Given I navigate to the Rope record page
-    Given I press the Add records button
-    Given I select the Add new rope button
-    Given I provide the following rope information
-      | ropeType          | "a-type"        |
+      And I press the Add records button
+      And I select the Add new rope button
+      And I provide the following rope information
+      | ropeType          | "Head rope"     |
       | hoistId           | 1               |
       | serialNo          | 123456          |
       | ropeDiameter      | "25in"          |
@@ -20,6 +20,4 @@ Feature: Rope Records
       | manufacturer      | "3M             |
       | manufacturerDate  | "2024-01-01"    |
     When I press the Add new rope save button
-    # And Screen matches the base image "Light Mode"
     Then I should receive a success message
-# And Screen matches the base image "Dark Mode"
