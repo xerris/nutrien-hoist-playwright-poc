@@ -1,14 +1,14 @@
-#@foo
-#Feature: Playwright docs
+@foo
+Feature: Playwright docs
 
-#  Background: Navigation
-#    Given Go to the playwright website
+  Background: Navigation
+    Given Go to the playwright website
 
-#  Scenario: Change theme
-#    Given Use Fake time "2021-01-01"
-#    Given A cat fact is received
-#    When Change theme to "light" mode
-    # And Screen matches the base image "Light Mode"
-#    Then We see "light" mode
+  Scenario: Change theme
+    Given Use Fake time "2021-01-01"
+    Given A cat fact is received
+    When Change theme to "light" mode
+ #    And Screen matches the base image "Light Mode"
+    Then We see "light" mode
 #    When Change theme to "dark" mode
-# And Screen matches the base image "Dark Mode"
+#     And Screen matches the base image "Dark Mode"
