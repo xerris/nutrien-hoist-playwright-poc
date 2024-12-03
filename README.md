@@ -28,6 +28,10 @@ This repository is based on the [Cucumber-typescript-starter](https://github.com
 - Utilies function to help you with writing steps
 - VScode configuration to debug a single feature or an only scenario (run when located on the feature file)
 
+## Developer setup
+`npm install` to install node modules
+`npx playwright install` to install Playwright
+
 ## Usage
 
 Create a repo based on this template and start writing your tests.
