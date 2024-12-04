@@ -12,7 +12,7 @@ jobs:
     strategy:
       matrix:
         node: ['20']
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
 
     steps:
       - uses: actions/checkout@v4
@@ -24,7 +24,7 @@ jobs:
       - name: run lint
         run: npm run lint
       - name: install Playwright
-        run: npx playwright install --with-deps > /dev/null
+        run: npx playwright install --with-deps > NUL
       - name: run features
         run: npm run test
       - name: Upload test results
