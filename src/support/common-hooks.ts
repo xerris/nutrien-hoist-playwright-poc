@@ -1,4 +1,4 @@
-import { ICustomWorld } from './custom-world';
+import { IHoistWorld } from './hoist-world';
 import { config } from './config';
 import { Before, After, BeforeAll, AfterAll, Status, setDefaultTimeout } from '@cucumber/cucumber';
 import {
@@ -48,11 +48,11 @@ Before({ tags: '@ignore' }, function () {
   return 'skipped';
 });
 
-Before({ tags: '@debug' }, function (this: ICustomWorld) {
+Before({ tags: '@debug' }, function (this: IHoistWorld) {
   this.debug = true;
 });
 
-Before(async function (this: ICustomWorld, { pickle }) {
+Before(async function (this: IHoistWorld, { pickle }) {
   this.startTime = new Date();
   this.testName = pickle.name.replace(/\W/g, '-');
   // customize the [browser context](https://playwright.dev/docs/next/api/class-browser#browsernewcontextoptions)
@@ -76,7 +76,7 @@ Before(async function (this: ICustomWorld, { pickle }) {
   this.feature = pickle;
 });
 
-After(async function (this: ICustomWorld, { result }) {
+After(async function (this: IHoistWorld, { result }) {
   if (result) {
     this.attach(`Status: ${result?.status}. Duration:${result.duration?.seconds}s`);
 

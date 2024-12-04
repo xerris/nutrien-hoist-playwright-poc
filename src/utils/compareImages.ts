@@ -1,7 +1,7 @@
 // Added by https://github.com/ortsevlised
 
 import { config } from '../support/config';
-import { ICustomWorld } from '../support/custom-world';
+import { IHoistWorld } from '../support/hoist-world';
 import { ensureFile, pathExists } from 'fs-extra';
 import pixelmatch from 'pixelmatch';
 import { PNG } from 'pngjs';
@@ -23,7 +23,7 @@ interface ImagePathOptions {
 }
 
 export function getImagePath(
-  customWorld: ICustomWorld,
+  customWorld: IHoistWorld,
   name: string,
   options?: ImagePathOptions
 ): string {
@@ -36,7 +36,7 @@ export function getImagePath(
   );
 }
 export async function compareToBaseImage(
-  customWorld: ICustomWorld,
+  customWorld: IHoistWorld,
   name: string,
   screenshot: Buffer,
   threshold?: { threshold: number }

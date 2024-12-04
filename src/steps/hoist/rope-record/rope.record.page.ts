@@ -1,8 +1,9 @@
-import { ICustomWorld } from '../../../support/custom-world';
+import { IHoistWorld } from '../../../support/hoist-world';
 import { DataTable, Given, Then, When } from '@cucumber/cucumber';
 
-Given('I press the Add records button', async function (this: ICustomWorld) {
+Given('I press the Add records button', async function (this: IHoistWorld) {
   console.log('I press the Add records button');
+  console.log(`baseUrl: ${this.baseUrl}`);
 
   // Stub await using Promise.resolve()
   await Promise.resolve();
@@ -10,8 +11,9 @@ Given('I press the Add records button', async function (this: ICustomWorld) {
   console.log('Add records button pressed stub completed');
 });
 
-Given('I select the Add new rope button', async function (this: ICustomWorld) {
+Given('I select the Add new rope button', async function (this: IHoistWorld) {
   console.log('I select the Add new rope button');
+  console.log(`baseUrl: ${this.baseUrl}`);
 
   // Stub await using Promise.resolve()
   await Promise.resolve();
@@ -21,6 +23,7 @@ Given('I select the Add new rope button', async function (this: ICustomWorld) {
 
 Given('I provide the following rope information', async function (dataTable: DataTable) {
   console.log('I provide the following rope information');
+  console.log(`baseUrl: ${this.baseUrl}`);
 
   const ropeInfo = dataTable.rowsHash();
 
@@ -36,8 +39,9 @@ Given('I provide the following rope information', async function (dataTable: Dat
   console.log('Rope data information stub completed');
 });
 
-When('I press the Add new rope save button', async function (this: ICustomWorld) {
+When('I press the Add new rope save button', async function (this: IHoistWorld) {
   console.log('I press the Add new rope save button');
+  console.log(`baseUrl: ${this.baseUrl}`);
 
   // Stub await using Promise.resolve()
   await Promise.resolve();
@@ -45,8 +49,9 @@ When('I press the Add new rope save button', async function (this: ICustomWorld)
   console.log('Add new rope save button pressed stub completed');
 });
 
-Then('I should receive a success message', async function (this: ICustomWorld) {
+Then('I should receive a success message', async function (this: IHoistWorld) {
   console.log('I should receive a success message');
+  console.log(`baseUrl: ${this.baseUrl}`);
 
   // Stub await using Promise.resolve()
   await Promise.resolve();
