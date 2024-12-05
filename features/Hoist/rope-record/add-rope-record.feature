@@ -6,4 +6,5 @@ Feature: Rope Records
 
   Scenario: Add rope record
     Given I navigate to the Rope record page
+    And I press the Add records button
  

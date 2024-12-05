@@ -1,14 +1,20 @@
+import { expect } from 'playwright/test';
 import { IHoistWorld } from '../../../support/hoist-world';
 import { DataTable, Given, Then, When } from '@cucumber/cucumber';
 
 Given('I press the Add records button', async function (this: IHoistWorld) {
   console.log('I press the Add records button');
-  console.log(`baseUrl: ${this.baseUrl}`);
+  const page = this.page!;
+  console.log('Current url:', page.url());
+  // await page.getByRole('button', { name: 'Add records' }).click();
+  await page.waitForSelector('text=Applied:', { state: 'visible' });
+  const text = page.getByText('Applied:', { exact: true });
 
-  // Stub await using Promise.resolve()
-  await Promise.resolve();
+  // Assert that the button is visible
+  await expect(text).toBeVisible();
 
-  console.log('Add records button pressed stub completed');
+  // Click the button
+  // await button.click();
 });
 
 Given('I select the Add new rope button', async function (this: IHoistWorld) {

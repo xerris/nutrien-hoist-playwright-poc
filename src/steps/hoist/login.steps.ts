@@ -49,11 +49,12 @@ Given('I am logged in as a site-admin', async function (this: IHoistWorld) {
   await page.getByRole('button', { name: 'Login' }).click();
   await Promise.resolve();
   await page.locator('#i0116').click();
-  await page.locator('#i0116').fill('gitesh.gupta@nutrien.com');
+  await page.locator('#i0116').fill('some.example@nutrien.com');
   await page.getByRole('button', { name: 'Next' }).click();
   await page.locator('#i0118').click();
-  await page.locator('#i0118').fill('000pure99%sweetchilly');
+  await page.locator('#i0118').fill('*********');
   await page.getByRole('button', { name: 'Sign in' }).click();
   await page.getByRole('button', { name: 'Yes' }).click();
   await page.waitForSelector('text=Rope record', { state: 'visible' });
+  await page.waitForURL('https://dev.minesight.nutrien.com/hoist/actionitems');
 });
