@@ -13,10 +13,7 @@ Given('I login as a Lanigan site-admin', async function (this: IHoistWorld) {
 
 Given('I am on the login page in the DEV env', async function (this: IHoistWorld) {
   const page = this.page!;
-  await page.goto('https://dev-hoist.minesight.nutrien.com/login');
-  await page.getByRole('button', { name: 'Login' }).click();
-  await Promise.resolve();
-
+  await page.goto('https://dev.minesight.nutrien.com/');
   console.log('Login stub DEV env completed');
 });
 
@@ -24,8 +21,7 @@ Given('I click on the login button', async function (this: IHoistWorld) {
   const page = this.page!;
   await page.getByRole('button', { name: 'Login' }).click();
   await Promise.resolve();
-
-  console.log('Login stub DEV env completed');
+  console.log('Login button clicked');
 });
 
 When('I enter the email \'maheak.mishra@nutrien.com\' in the email field', async function (this: IHoistWorld) {
@@ -33,22 +29,20 @@ When('I enter the email \'maheak.mishra@nutrien.com\' in the email field', async
   await page.getByPlaceholder('someone@example.com').click();
   await page.getByPlaceholder('someone@example.com').fill('maheak.mishra@nutrien.com');
   await page.getByPlaceholder('someone@example.com').press('Enter');
-  await page.getByPlaceholder('Password').click();
-  await page.getByRole('button', { name: 'Sign in' }).click();
 });
 
 When('I enter the password \'password\' in the password field', async function (this: IHoistWorld) {
   const page = this.page!;
   await page.getByPlaceholder('Password').click();
+  await page.getByPlaceholder('Password').fill('password');
   await page.getByRole('button', { name: 'Sign in' }).click();
   console.log('Login stub completed');
 });
 
-Then('I should be redirected to the actions page', async function (this: IHoistWorld) {
-  console.log('I should receive a success message');
-  console.log(`baseUrl: ${this.baseUrl}`);
-  // Stub await using Promise.resolve()
-  await Promise.resolve();
+Then('I should be redirected to the actions page',  function (this: IHoistWorld) {
+  const page = this.page!;
+  console.log(page);
   console.log('I should be redirected to the actions page stub completed');
 });
+
 
