@@ -1,11 +1,13 @@
 import { setWorldConstructor, World, IWorldOptions } from '@cucumber/cucumber';
 import * as messages from '@cucumber/messages';
-import { BrowserContext, Page, PlaywrightTestOptions, APIRequestContext } from '@playwright/test';
+import { BrowserContext, Page, PlaywrightTestOptions, APIRequestContext, Browser, Cookie } from '@playwright/test';
 
 export interface IHoistWorld extends World {
   debug: boolean;
   feature?: messages.Pickle;
+  browser?: Browser;
   context?: BrowserContext;
+  cookies?: Cookie[];
   page?: Page;
   testName?: string;
   startTime?: Date;
@@ -14,7 +16,6 @@ export interface IHoistWorld extends World {
   playwrightOptions?: PlaywrightTestOptions;
   baseUrl: string; // Add this line
 }
-
 export class HoistWorld extends World implements IHoistWorld {
   debug = false;
   baseUrl: string;

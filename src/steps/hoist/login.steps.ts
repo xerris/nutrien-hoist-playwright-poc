@@ -57,4 +57,9 @@ Given('I am logged in as a site-admin', async function (this: IHoistWorld) {
   await page.getByRole('button', { name: 'Yes' }).click();
   await page.waitForSelector('text=Rope record', { state: 'visible' });
   await page.waitForURL('https://dev.minesight.nutrien.com/hoist/actionitems');
+  this.browser = browser;
+  const context = await browser.newContext();
+  this.context = context;
+  this.page = page;
+  this.cookies = await context.cookies();
 });
