@@ -2,7 +2,8 @@
 Feature: Rope Records
 
   Background: Login
-    Given I login as a Lanigan site-admin
+    Given Go to the supervisor dev env
+    # Given I login as a Lanigan site-admin
 
   Scenario: Add rope record
     Given I navigate to the Rope record page
