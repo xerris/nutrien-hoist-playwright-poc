@@ -1,6 +1,13 @@
 import { setWorldConstructor, World, IWorldOptions } from '@cucumber/cucumber';
 import * as messages from '@cucumber/messages';
-import { BrowserContext, Page, PlaywrightTestOptions, APIRequestContext, Browser, Cookie } from '@playwright/test';
+import {
+  BrowserContext,
+  Page,
+  PlaywrightTestOptions,
+  APIRequestContext,
+  Browser,
+  Cookie,
+} from '@playwright/test';
 import { environments, EnvironmentConfig } from '../config/hoist-environments';
 
 export interface IHoistWorld extends World {
@@ -29,7 +36,7 @@ export class HoistWorld extends World implements IHoistWorld {
 
   constructor(options: IWorldOptions) {
     super(options);
-    const env = (process.env.ENV ?? 'development');
+    const env = process.env.ENV ?? 'development';
 
     // Get environment configuration
     this.envConfig = environments[env];

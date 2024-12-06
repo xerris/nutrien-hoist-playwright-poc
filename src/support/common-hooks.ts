@@ -10,7 +10,7 @@ import {
   WebKitBrowser,
   ConsoleMessage,
   request,
-  Browser
+  Browser,
 } from '@playwright/test';
 import { ensureDir } from 'fs-extra';
 
@@ -62,11 +62,11 @@ Before(async function (this: IHoistWorld, { pickle }) {
   this.context = await browser.newContext({
     acceptDownloads: true,
     recordVideo: process.env.PWVIDEO ? { dir: 'screenshots' } : undefined,
-    viewport: { width: 1200, height: 800 }
+    viewport: { width: 1200, height: 800 },
   });
   this.server = await request.newContext({
     // All requests we send go to this API endpoint.
-    baseURL: config.BASE_API_URL
+    baseURL: config.BASE_API_URL,
   });
 
   await this.context.tracing.start({ screenshots: true, snapshots: true });
@@ -93,7 +93,7 @@ After(async function (this: IHoistWorld, { result }) {
         this.attach(image, 'image/png');
       }
       await this.context?.tracing.stop({
-        path: `${tracesDir}/${this.testName}-${timePart}trace.zip`
+        path: `${tracesDir}/${this.testName}-${timePart}trace.zip`,
       });
     }
   }
