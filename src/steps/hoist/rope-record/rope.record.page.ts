@@ -3,28 +3,29 @@ import { IHoistWorld } from '../../../support/hoist-world';
 import { DataTable, Given, Then, When } from '@cucumber/cucumber';
 
 Given('I press the Add records button', async function (this: IHoistWorld) {
-  console.log('I press the Add records button');
   const page = this.page!;
-  console.log('Current url:', page.url());
   // await page.getByRole('button', { name: 'Add records' }).click();
-  await page.waitForSelector('text=Applied:', { state: 'visible' });
-  const text = page.getByText('Applied:', { exact: true });
+  await page.waitForSelector('text=Applied:', { state: 'visible' }); // making sure ag-grid table is rendered
+  const text = page.getByText('Add records', { exact: true });
 
   // Assert that the button is visible
   await expect(text).toBeVisible();
-
-  // Click the button
-  // await button.click();
+  await text.click();
 });
 
-Given('I select the Add new rope button', async function (this: IHoistWorld) {
-  console.log('I select the Add new rope button');
-  console.log(`baseUrl: ${this.baseUrl}`);
+Then('I select the Add new rope button', async function (this: IHoistWorld) {
+  const page = this.page!;
+  await page.waitForSelector('text=Add new rope', { state: 'visible' });
+  const addNewRope = page.getByText('Add new rope', { exact: true });
 
-  // Stub await using Promise.resolve()
-  await Promise.resolve();
+  await expect(addNewRope).toBeVisible();
+  await addNewRope.click();
+});
 
-  console.log('Add new rope button pressed stub completed');
+Then('I should see the Add new rope data Side Panel', async function (this: IHoistWorld) {
+  const page = this.page!;
+  const sidePanelTitle = page.getByRole('heading', { name: 'Add new rope data' });
+  await expect(sidePanelTitle).toBeVisible();
 });
 
 Given('I provide the following rope information', async function (dataTable: DataTable) {
