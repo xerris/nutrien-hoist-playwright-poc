@@ -38,8 +38,13 @@ Given('I provide the following rope information - greg', async function (dataTab
       const locator = page.locator(fieldMetadata.locator);
       const cleanValue = value.replace(/"/g, '').trim(); // Clean up value
 
+      console.log(`filling in field: ${fieldName} with: ${cleanValue}`);
+
       if (fieldMetadata.type === 'select') {
-        await locator.selectOption({ label: cleanValue });
+        await locator.click();
+        await page.getByRole('option', { name: cleanValue }).click();
+        /* await locator.selectOption({ label: cleanValue }); */
+        break;
       } else if (fieldMetadata.type === 'input') {
         await locator.fill(cleanValue);
       } else if (fieldMetadata.type === 'date') {
