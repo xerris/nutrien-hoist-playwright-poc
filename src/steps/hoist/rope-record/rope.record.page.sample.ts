@@ -1,4 +1,4 @@
-import { Given } from '@cucumber/cucumber';
+import { DataTable, Given } from '@cucumber/cucumber';
 import { Page } from 'playwright';
 
 // Define the structure of the rope metadata
@@ -20,15 +20,15 @@ const ropeMetadata: RopeMetadata[] = [
   { name: 'Grade of steel', locator: 'input[name="grade"]', type: 'input' },
   { name: 'Manufacturer name', locator: 'input[name="manufacturerName"]', type: 'input' },
   { name: 'Manufacturer address', locator: 'input[name="manufacturerAddress"]', type: 'input' },
-  { name: 'Manufacture date', locator: 'input[name="manufactureDate"]', type: 'date' },
+  { name: 'Manufacture date', locator: 'input[name="manufactureDate"]', type: 'date' }
 ];
 
 // Helper function to find metadata by field name
 const getFieldMetadata = (fieldName: string): RopeMetadata | undefined => {
-  return ropeMetadata.find((field) => field.name === fieldName);
+  return ropeMetadata.find(field => field.name === fieldName);
 };
 
-Given('I provide the following rope information - greg', async function (dataTable) {
+Given('I provide the following rope information - greg', async function (dataTable: DataTable): Promise<void> {
   const page = this.page as Page;
   const ropeInfo = dataTable.rowsHash();
 

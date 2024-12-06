@@ -48,14 +48,14 @@ Given('I provide the required rope information', async function (this: IHoistWor
       name: 'Diameter of rope (optional)',
       locator: 'Diameter of rope (optional)',
       type: 'input',
-      value: '1234',
+      value: '1234'
     },
     { name: 'Weight of rope', locator: 'Weight of rope', type: 'input', value: '123' },
     {
       name: 'Construction of rope',
       locator: 'Construction of rope',
       type: 'input',
-      value: 'abcd1234',
+      value: 'abcd1234'
     },
     { name: 'Type of lay', locator: '[id="Type\\ of\\ lay"]', type: 'select', value: 'Right lay' },
     { name: 'Grade of steel', locator: 'Grade of steel', type: 'input', value: '1234' },
@@ -64,9 +64,9 @@ Given('I provide the required rope information', async function (this: IHoistWor
       name: 'Manufacturer address',
       locator: 'Manufacturer address',
       type: 'input',
-      value: 'India',
+      value: 'India'
     },
-    { name: 'Manufacture date', locator: 'Manufacture date', type: 'date', value: '6' },
+    { name: 'Manufacture date', locator: 'Manufacture date', type: 'date', value: '6' }
   ];
 
   for (const field of ropeMetadata) {
@@ -112,45 +112,45 @@ Given('I Provide information for construction info form', async function (this: 
       name: 'Class of core used in the rope',
       locator: 'Class of core used in the rope',
       type: 'input',
-      value: '123',
+      value: '123'
     },
     {
       name: 'Number of strands in the rope',
       locator: 'Number of strands in the rope',
       type: 'input',
-      value: '12',
+      value: '12'
     },
     {
       name: 'Number of wires in each strand',
       locator: 'Number of wires in each strand',
       type: 'input',
-      value: '12',
+      value: '12'
     },
     { name: 'Diameter of wires', locator: 'Diameter of wires', type: 'input', value: '12.1222' },
     {
       name: 'Breaking stress of steel',
       locator: 'Breaking stress of steel',
       type: 'input',
-      value: '123',
+      value: '123'
     },
     {
       name: 'Standard torsion test of the',
       locator: 'Standard torsion test of the',
       type: 'input',
-      value: '23',
+      value: '23'
     },
     {
       name: 'The percentage by mass of',
       locator: 'The percentage by mass of',
       type: 'input',
-      value: '12',
+      value: '12'
     },
     {
       name: 'The trade name of the',
       locator: 'The trade name of the',
       type: 'input',
-      value: 'unknown',
-    },
+      value: 'unknown'
+    }
   ];
 
   for (const field of constructionInfoMetaData) {
@@ -182,7 +182,7 @@ Given('I Provide information for Breaking load test info form', async function (
   const breakingLoadMetadata = [
     { name: 'Breaking load', locator: 'Breaking load', type: 'input', value: '234' },
     { name: 'Test number', locator: 'Test number', type: 'input', value: '12' },
-    { name: 'Test date', locator: 'Test date', type: 'date', value: '6' }, // Using '6' as the button to click for date selection
+    { name: 'Test date', locator: 'Test date', type: 'date', value: '6' } // Using '6' as the button to click for date selection
   ];
 
   for (const field of breakingLoadMetadata) {

@@ -1,5 +1,5 @@
-@Rope-Record
-Feature: Rope Records
+#@Rope-Record
+#Feature: Rope Records
 
 #  Scenario: Add rope record
 #    Given I am logged in as a site-admin
