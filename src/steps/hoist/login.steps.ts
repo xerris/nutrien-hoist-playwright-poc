@@ -2,6 +2,7 @@ import { IHoistWorld } from '../../support/hoist-world';
 import { Given, Then, When } from '@cucumber/cucumber';
 
 import { Browser, Page, chromium } from '@playwright/test';
+import { LoginPage } from '../../pages/LoginPage';
 
 let browser: Browser;
 let page: Page;
@@ -23,8 +24,9 @@ Given('I click on the login button', async function (this: IHoistWorld) {
 });
 
 When('I enter the email in the email field', async function (this: IHoistWorld) {
-  await page.locator('#i0116').click();
-  await page.locator('#i0116').fill(this.envConfig.credentials?.username ?? '');
+  const emailField = page.locator('#i0116');
+  await emailField.click();
+  await emailField.fill(this.envConfig.credentials?.username ?? '');
   await page.getByRole('button', { name: 'Next' }).click();
 });
 
@@ -43,23 +45,21 @@ Then('I should be redirected to the actions page', async function (this: IHoistW
 });
 
 Given('I am logged in as a site-admin', async function (this: IHoistWorld) {
-  browser = await chromium.launch({ headless: false });
-  page = await browser.newPage();
-  await page.goto(this.baseUrl);
-  await page.getByRole('button', { name: 'Login' }).click();
-  await Promise.resolve();
-  await page.locator('#i0116').click();
-  await page.locator('#i0116').fill(this.envConfig.credentials?.username ?? '');
-  await page.getByRole('button', { name: 'Next' }).click();
-  await page.locator('#i0118').click();
-  await page.locator('#i0118').fill(this.envConfig.credentials?.password ?? '');
-  await page.getByRole('button', { name: 'Sign in' }).click();
-  await page.getByRole('button', { name: 'Yes' }).click();
-  await page.waitForSelector('text=Rope record', { state: 'visible' });
-  await page.waitForURL('https://dev.minesight.nutrien.com/hoist/actionitems');
+  const browser: Browser = await chromium.launch({ headless: false });
+  const page: Page = await browser.newPage();
+
+  const loginPage = new LoginPage(page);
+
+  await loginPage.navigate(this.baseUrl);
+  await loginPage.clickLogin();
+  await loginPage.enterUsername(this.envConfig.credentials?.username ?? '');
+  await loginPage.enterPassword(this.envConfig.credentials?.password ?? '');
+  await loginPage.submit();
+  await loginPage.confirmLogin();
+  await loginPage.waitForSuccessfulLogin();
+
   this.browser = browser;
-  const context = await browser.newContext();
-  this.context = context;
+  this.context = await browser.newContext();
   this.page = page;
-  this.cookies = await context.cookies();
+  this.cookies = await this.context.cookies();
 });
