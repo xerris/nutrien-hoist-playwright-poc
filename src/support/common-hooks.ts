@@ -25,21 +25,24 @@ declare global {
 setDefaultTimeout(process.env.PWDEBUG ? -1 : 60 * 1000);
 
 BeforeAll(async function () {
-  switch (config.browser) {
-    case 'firefox':
-      browser = await firefox.launch(config.browserOptions);
-      break;
-    case 'webkit':
-      browser = await webkit.launch(config.browserOptions);
-      break;
-    case 'msedge':
-      browser = await chromium.launch({ ...config.browserOptions, channel: 'msedge' });
-      break;
-    case 'chrome':
-      browser = await chromium.launch({ ...config.browserOptions, channel: 'chrome' });
-      break;
-    default:
-      browser = await chromium.launch(config.browserOptions);
+  // Launch browser only once
+  if (!browser) {
+    switch (config.browser) {
+      case 'firefox':
+        browser = await firefox.launch(config.browserOptions);
+        break;
+      case 'webkit':
+        browser = await webkit.launch(config.browserOptions);
+        break;
+      case 'msedge':
+        browser = await chromium.launch({ ...config.browserOptions, channel: 'msedge' });
+        break;
+      case 'chrome':
+        browser = await chromium.launch({ ...config.browserOptions, channel: 'chrome' });
+        break;
+      default:
+        browser = await chromium.launch(config.browserOptions);
+    }
   }
   await ensureDir(tracesDir);
 });

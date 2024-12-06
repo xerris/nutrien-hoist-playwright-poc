@@ -24,13 +24,13 @@ Given('I click on the login button', async function (this: IHoistWorld) {
 
 When('I enter the email in the email field', async function (this: IHoistWorld) {
   await page.locator('#i0116').click();
-  await page.locator('#i0116').fill('some.example@nutrien.com');
+  await page.locator('#i0116').fill(this.envConfig.credentials?.username ?? '');
   await page.getByRole('button', { name: 'Next' }).click();
 });
 
 When('I enter the password in the password field', async function (this: IHoistWorld) {
   await page.locator('#i0118').click();
-  await page.locator('#i0118').fill('***************');
+  await page.locator('#i0118').fill(this.envConfig.credentials?.password ?? '');
   await page.getByRole('button', { name: 'Sign in' }).click();
 
   await page.getByRole('button', { name: 'Yes' }).click();
@@ -45,14 +45,14 @@ Then('I should be redirected to the actions page', async function (this: IHoistW
 Given('I am logged in as a site-admin', async function (this: IHoistWorld) {
   browser = await chromium.launch({ headless: false });
   page = await browser.newPage();
-  await page.goto('https://dev.minesight.nutrien.com');
+  await page.goto(this.baseUrl);
   await page.getByRole('button', { name: 'Login' }).click();
   await Promise.resolve();
   await page.locator('#i0116').click();
-  await page.locator('#i0116').fill('gitesh.gupta@nutrien.com');
+  await page.locator('#i0116').fill(this.envConfig.credentials?.username ?? '');
   await page.getByRole('button', { name: 'Next' }).click();
   await page.locator('#i0118').click();
-  await page.locator('#i0118').fill('000pure99%sweetchilly');
+  await page.locator('#i0118').fill(this.envConfig.credentials?.password ?? '');
   await page.getByRole('button', { name: 'Sign in' }).click();
   await page.getByRole('button', { name: 'Yes' }).click();
   await page.waitForSelector('text=Rope record', { state: 'visible' });

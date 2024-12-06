@@ -8,7 +8,7 @@ export interface IHoistWorld extends World {
   feature?: messages.Pickle;
   browser?: Browser;
   context?: BrowserContext;
-  cookies?: Cookie[];
+  cookies?: Cookies[];
   page?: Page;
   testName?: string;
   startTime?: Date;
@@ -25,6 +25,7 @@ export class HoistWorld extends World implements IHoistWorld {
   browser?: Browser;
   context?: BrowserContext;
   page?: Page;
+  cookies?: Cookie[] = []; // new change
 
   constructor(options: IWorldOptions) {
     super(options);
