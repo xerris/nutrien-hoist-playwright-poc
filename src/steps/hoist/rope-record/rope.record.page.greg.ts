@@ -15,7 +15,7 @@ Given('I provide the following rope information - greg', async function (dataTab
     if (fieldName === 'Serial number')
       cleanValue = uniqueGenerator.generateUniqueValue('CUCSNO', 6); // Generate unique serial number
 
-    ropeRecord.setFieldValue(fieldName, cleanValue);
+    await ropeRecord.setFieldValue(fieldName, cleanValue);
   }
 
   await executeWithDelay();
