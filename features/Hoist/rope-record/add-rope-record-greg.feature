@@ -10,7 +10,7 @@ Feature: Rope Records
       And I press the Add records button
       And I select the Add new rope button
       And I should see the Add new rope data Side Panel
-      And I click on Rope Information Accordian Tab
+      And I click on Rope Information Accordion Tab
       And I provide the following rope information - greg
           | Rope Type                    | "Head rope"         |
           | Hoist #                      | "1"                 |
@@ -23,3 +23,6 @@ Feature: Rope Records
           | Manufacturer name            | "gitesh"            |
           | Manufacturer address         | "India"             |
           | Manufacture date             | "2024-01-06"        |
+    When I do this
+   Scenario: Doing something
+     When I do this

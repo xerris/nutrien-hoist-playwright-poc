@@ -9,6 +9,7 @@ import {
   Cookie
 } from '@playwright/test';
 import { environments, EnvironmentConfig } from '../config/hoist-environments';
+import { CreateRopeRecord } from '../pages/CreateRopeRecord';
 
 export interface IHoistWorld extends World {
   debug: boolean;
@@ -24,6 +25,8 @@ export interface IHoistWorld extends World {
   playwrightOptions?: PlaywrightTestOptions;
   baseUrl: string; // Add this line
   envConfig: EnvironmentConfig;
+  ropeRecord?: CreateRopeRecord;
+  generatedSerialNumber?: string;
 }
 export class HoistWorld extends World implements IHoistWorld {
   debug = false;
@@ -33,6 +36,8 @@ export class HoistWorld extends World implements IHoistWorld {
   context?: BrowserContext;
   page?: Page;
   cookies?: Cookie[] = []; // new change
+  ropeRecord?: CreateRopeRecord;
+  generatedSerialNumber?: string;
 
   constructor(options: IWorldOptions) {
     super(options);

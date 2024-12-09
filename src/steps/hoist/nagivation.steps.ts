@@ -17,3 +17,12 @@ Given('I navigate to the Rope Detail Page for Serial number {string}', async fun
   const text = page.getByText('Rope record details', { exact: true });
   await expect(text).toBeVisible();
 });
+
+Given('I navigate to the Rope Detail Page for a {string} rope', async function (this: IHoistWorld, status: string) {
+  const page = this.page!;
+  await page.getByRole('gridcell', { name: 'status' }).click();
+  const text = page.getByText('Rope record details', { exact: true });
+  await expect(text).toBeVisible();
+});
+
+//  await page.getByRole('gridcell', { name: 'status' }).click();

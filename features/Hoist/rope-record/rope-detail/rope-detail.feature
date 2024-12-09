@@ -21,3 +21,6 @@ Feature: Rope Detail
       | Install details |
       | Attachments     |
       | Construction details |
+
+  Scenario: User navigates to a Spare rope's detail page
+    Given I navigate to the Rope Detail Page for a 'Spare' rope
