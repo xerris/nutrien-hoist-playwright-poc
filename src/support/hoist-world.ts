@@ -6,7 +6,7 @@ import {
   PlaywrightTestOptions,
   APIRequestContext,
   Browser,
-  Cookie,
+  Cookie
 } from '@playwright/test';
 import { environments, EnvironmentConfig } from '../config/hoist-environments';
 
@@ -15,7 +15,7 @@ export interface IHoistWorld extends World {
   feature?: messages.Pickle;
   browser?: Browser;
   context?: BrowserContext;
-  cookies?: Cookies[];
+  cookies?: Cookie[];
   page?: Page;
   testName?: string;
   startTime?: Date;

@@ -9,3 +9,11 @@ Given('I navigate to the Rope record page', async function (this: IHoistWorld) {
   expect(page.url()).toBe('https://dev.minesight.nutrien.com/hoist/ropes');
   await Promise.resolve();
 });
+
+Given('I navigate to the Rope Detail Page for Serial number {string}', async function (this: IHoistWorld, serialNumber: string) {
+  const page = this.page!;
+  console.log('Searching for:', serialNumber);
+  await page.getByRole('gridcell', { name: serialNumber, exact: true }).click();
+  const text = page.getByText('Rope record details', { exact: true });
+  await expect(text).toBeVisible();
+});
