@@ -1,7 +1,7 @@
 import { DataTable, Given, When } from '@cucumber/cucumber';
 import { UniqueIdentifierGenerator } from '../../../support/UniqueIdentifierGenerator';
 import { CreateRopeRecord } from '../../../pages/CreateRopeRecord';
-import { IHoistWorld } from '../../../support/hoist-world';
+import { HoistWorld, IHoistWorld } from '../../../support/hoist-world';
 
 Given('I provide the following rope information - greg', async function (this: IHoistWorld, dataTable: DataTable): Promise<void> {
   const page = this.page!;
@@ -15,6 +15,7 @@ Given('I provide the following rope information - greg', async function (this: I
     if (fieldName === 'Serial number') {
       cleanValue = uniqueGenerator.generateUniqueValue('CUCSNO', 6); // Generate unique serial number
       this.generatedSerialNumber = cleanValue;
+      HoistWorld.sharedState.generatedSerialNumber = cleanValue;
     }
     await ropeRecord.setFieldValue(fieldName, cleanValue);
   }
@@ -36,6 +37,6 @@ async function executeWithDelay() {
 
 When('I do this', function (this: IHoistWorld) {
   if (this.generatedSerialNumber) {
-    console.log(`Generated serial number: ${this.generatedSerialNumber}`);
+    console.log(`Generated serial number: ${HoistWorld.sharedState.generatedSerialNumber}`);
   }
 });

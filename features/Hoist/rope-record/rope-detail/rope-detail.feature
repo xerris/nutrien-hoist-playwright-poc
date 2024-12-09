@@ -22,5 +22,12 @@ Feature: Rope Detail
       | Attachments     |
       | Construction details |
 
-  Scenario: User navigates to a Spare rope's detail page
-    Given I navigate to the Rope Detail Page for a 'Spare' rope
+  Scenario: User edits the Breaking Load information
+    Given I navigate to the Rope Detail Page for Serial number '1234'
+    And I provide the following information in the Breaking load form
+      | Breaking load | "4" |
+    Then I should be able to see the updated Breaking load data
+
+
+#  Scenario: User navigates to a Spare rope's detail page
+#    Given I navigate to the Rope Detail Page for a 'Spare' rope

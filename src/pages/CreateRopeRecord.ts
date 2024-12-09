@@ -30,6 +30,12 @@ export class CreateRopeRecord {
     { name: 'Manufacture date', locator: 'input[name="manufactureDate"]', type: 'date' }
   ];
 
+  private breakingLoadMetadata: RopeMetadata[] = [
+    { name: 'Breaking load', locator: 'Breaking load', type: 'input' },
+    { name: 'Test number', locator: 'Test number', type: 'input' },
+    { name: 'Test date', locator: 'Test date', type: 'date' }
+  ];
+
   private settersMap: Record<string, (value: string) => Promise<void>> = {
     'Rope Type': this.setRopeType.bind(this),
     'Hoist #': this.setHoistNumber.bind(this),
@@ -41,7 +47,10 @@ export class CreateRopeRecord {
     'Grade of steel': this.setGradeOfSteel.bind(this),
     'Manufacturer name': this.setManufacturerName.bind(this),
     'Manufacturer address': this.setManufacturerAddress.bind(this),
-    'Manufacture date': this.setManufactureDate.bind(this)
+    'Manufacture date': this.setManufactureDate.bind(this),
+    'Breaking load': this.setBreakingLoad.bind(this),
+    'TestNumber': this.setBreakingLoadTestNumber.bind(this),
+    'TestDate': this.setBreakingLoadTestDate.bind(this)
   };
 
   // Method to dynamically call the appropriate setter
@@ -100,6 +109,18 @@ export class CreateRopeRecord {
     await this.setField('Manufacture date', value);
   }
 
+  public async setBreakingLoad(value: string): Promise<void> {
+    await this.setField('Breaking load', value);
+  }
+
+  public async setBreakingLoadTestNumber(value: string): Promise<void> {
+    await this.setField('Test number', value);
+  }
+
+  public async setBreakingLoadTestDate(value: string): Promise<void> {
+    await this.setField('Test date', value);
+  }
+
   // Helper function to find metadata by field name and set the value
   private async setField(fieldName: string, value: string): Promise<void> {
     const fieldMetadata = this.getFieldMetadata(fieldName);
@@ -112,6 +133,7 @@ export class CreateRopeRecord {
 
   // Method to retrieve metadata by field name
   private getFieldMetadata(fieldName: string): RopeMetadata | undefined {
-    return this.ropeMetadata.find(field => field.name === fieldName);
+    const combinedRopeMetadata = [...this.ropeMetadata, ...this.breakingLoadMetadata];
+    return combinedRopeMetadata.find(field => field.name === fieldName);
   }
 }
