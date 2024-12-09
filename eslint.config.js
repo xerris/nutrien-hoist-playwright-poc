@@ -10,8 +10,8 @@ const customizedESLint = stylistic.configs.customize({
   quotes: 'single',
   semi: true,
   jsx: true,
-  commaDangle: 'never',
-  braceStyle: '1tbs'
+  commaDangle: 'only-multiline',
+  braceStyle: '1tbs',
 });
 
 export default tseslint.config(
@@ -20,8 +20,8 @@ export default tseslint.config(
       '**/{www,dist,build}/**/*.*',
       'projects/*/!(src)/**/*.*',
       `!(${includedFolders.join(',')})/**/*.*`,
-      '!*.{js,ts,mjs,cjs}'
-    ]
+      '!*.{js,ts,mjs,cjs}',
+    ],
   },
   {
     name: 'typescript',
@@ -31,15 +31,15 @@ export default tseslint.config(
       parserOptions: {
         parser: tseslint.parser,
         projectService: true,
-        tsconfigRootDir: import.meta.dirname
-      }
+        tsconfigRootDir: import.meta.dirname,
+      },
     },
     plugins: {
-      '@stylistic': stylistic
+      '@stylistic': stylistic,
     },
     rules: {
-      ...customizedESLint.rules
-    }
+      ...customizedESLint.rules,
+    },
   },
   {
     name: 'tests',
@@ -47,7 +47,7 @@ export default tseslint.config(
     files: ['**/*.test.{ts,js}?(x)', 'e2e/src/**/*.ts'],
     rules: {
       'playwright/no-wait-for-timeout': 'error',
-      'playwright/no-wait-for-selector': 'error'
-    }
-  }
+      'playwright/no-wait-for-selector': 'error',
+    },
+  },
 );
