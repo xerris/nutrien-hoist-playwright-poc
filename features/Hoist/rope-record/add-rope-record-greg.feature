@@ -23,20 +23,20 @@ Feature: Rope Records
           | Manufacturer name            | "gitesh"            |
           | Manufacturer address         | "India"             |
           | Manufacture date             | "2024-01-06"        |
-    And I click on Construction Info Accordion Tab
-    And I provide the following rope information - greg
-      | Class of core used in the rope | 123        |
-      | Number of strands in the rope  | 123        |
-      | Number of wires in each strand | 123        |
-      | Diameter of wires              | 123        |
-      | Breaking stress of steel       | 123        |
-      | Standard torsion test of the   | 123        |
-      | The percentage by mass of      | 123        |
-      | The trade name of the          | trade-name |
-    And I click on Breaking load test Info Accordion Tab
-    And I provide the following rope information - greg
-      | Breaking load | 123 |
-      | Test number   | 12  |
-      | Test date     | 6   |
-    When I click on Save
-    Then I should be able to navigate to the Rope Detail Page for created rope
+      And I click on Construction Info Accordion Tab
+      And I provide the following rope information - greg
+          | Class of core used in the rope | 123        |
+          | Number of strands in the rope  | 123        |
+          | Number of wires in each strand | 123        |
+          | Diameter of wires              | 123        |
+          | Breaking stress of steel       | 123        |
+          | Standard torsion test of the   | 123        |
+          | The percentage by mass of      | 123        |
+          | The trade name of the          | trade-name |
+      And I click on Breaking load test Info Accordion Tab
+      And I provide the following rope information - greg
+          | Breaking load | 123 |
+          | Test number   | 12  |
+          | Test date     | 6   |
+      When I click on Save
+      Then I should be able to navigate to the Rope Detail Page for created rope
