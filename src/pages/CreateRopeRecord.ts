@@ -27,13 +27,40 @@ export class CreateRopeRecord {
     { name: 'Grade of steel', locator: 'input[name="grade"]', type: 'input' },
     { name: 'Manufacturer name', locator: 'input[name="manufacturerName"]', type: 'input' },
     { name: 'Manufacturer address', locator: 'input[name="manufacturerAddress"]', type: 'input' },
-    { name: 'Manufacture date', locator: 'input[name="manufactureDate"]', type: 'date' }
+    { name: 'Manufacture date', locator: 'input[name="manufactureDate"]', type: 'date' },
   ];
 
   private breakingLoadMetadata: RopeMetadata[] = [
     { name: 'Breaking load', locator: 'Breaking load', type: 'input' },
     { name: 'Test number', locator: 'Test number', type: 'input' },
-    { name: 'Test date', locator: 'Test date', type: 'date' }
+    { name: 'Test date', locator: 'Test date', type: 'date' },
+  ];
+
+  private constructionInfoMetaData: RopeMetadata[] = [
+    {
+      name: 'Class of core used in the rope',
+      locator: 'Class of core used in the rope',
+      type: 'input',
+    },
+    {
+      name: 'Number of strands in the rope',
+      locator: 'Number of strands in the rope',
+      type: 'input',
+    },
+    {
+      name: 'Number of wires in each strand',
+      locator: 'Number of wires in each strand',
+      type: 'input',
+    },
+    { name: 'Diameter of wires', locator: 'Diameter of wires', type: 'input' },
+    { name: 'Breaking stress of steel', locator: 'Breaking stress of steel', type: 'input' },
+    {
+      name: 'Standard torsion test of the',
+      locator: 'Standard torsion test of the',
+      type: 'input',
+    },
+    { name: 'The percentage by mass of', locator: 'The percentage by mass of', type: 'input' },
+    { name: 'The trade name of the', locator: 'The trade name of the', type: 'input' },
   ];
 
   private settersMap: Record<string, (value: string) => Promise<void>> = {
@@ -49,8 +76,16 @@ export class CreateRopeRecord {
     'Manufacturer address': this.setManufacturerAddress.bind(this),
     'Manufacture date': this.setManufactureDate.bind(this),
     'Breaking load': this.setBreakingLoad.bind(this),
-    'TestNumber': this.setBreakingLoadTestNumber.bind(this),
-    'TestDate': this.setBreakingLoadTestDate.bind(this)
+    'Test number': this.setBreakingLoadTestNumber.bind(this),
+    'Test date': this.setBreakingLoadTestDate.bind(this),
+    'Class of core used in the rope': this.setClassOfCore.bind(this),
+    'Number of strands in the rope': this.setNumberOfStrands.bind(this),
+    'Number of wires in each strand': this.setNumberOfWires.bind(this),
+    'Diameter of wires': this.setDiameterOfWires.bind(this),
+    'Breaking stress of steel': this.setBreakingStress.bind(this),
+    'Standard torsion test of the': this.setStandardTorsion.bind(this),
+    'The percentage by mass of': ,this.setPercentageByMass.bind(this),
+    'The trade name of the': this.setTradeName.bind(this),
   };
 
   // Method to dynamically call the appropriate setter
@@ -121,19 +156,58 @@ export class CreateRopeRecord {
     await this.setField('Test date', value);
   }
 
+  public async setClassOfCore(value: string): Promise<void> {
+    await this.setField('Class of core used in the rope', value);
+  }
+
+  public async setNumberOfStrands(value: string): Promise<void> {
+    await this.setField('Number of strands in the rope', value);
+  }
+
+  public async setNumberOfWires(value: string): Promise<void> {
+    await this.setField('Number of wires in each strand', value);
+  }
+
+  public async setDiameterOfWires(value: string): Promise<void> {
+    await this.setField('Diameter of wires', value);
+  }
+
+  public async setBreakingStress(value: string): Promise<void> {
+    await this.setField('Breaking stress of steel', value);
+  }
+
+  public async setStandardTorsion(value: string): Promise<void> {
+    await this.setField('Standard torsion test of the', value);
+  }
+
+  public async setPercentageByMass(value: string): Promise<void> {
+    await this.setField('The percentage by mass of', value);
+  }
+
+  public async setTradeName(value: string): Promise<void> {
+    await this.setField('The trade name of the', value);
+  }
+
   // Helper function to find metadata by field name and set the value
   private async setField(fieldName: string, value: string): Promise<void> {
     const fieldMetadata = this.getFieldMetadata(fieldName);
     if (!fieldMetadata) throw new Error(`${fieldName}: not found`);
 
     console.log(`filling: ${fieldName} with value: ${value}`);
-    await this.formHelper.fillFormField(this.page,
-      { type: fieldMetadata.type, name: fieldMetadata.name, value: value });
+    await this.formHelper.fillFormField(this.page, {
+      type: fieldMetadata.type,
+      name: fieldMetadata.name,
+      value: value,
+    });
   }
 
   // Method to retrieve metadata by field name
   private getFieldMetadata(fieldName: string): RopeMetadata | undefined {
-    const combinedRopeMetadata = [...this.ropeMetadata, ...this.breakingLoadMetadata];
-    return combinedRopeMetadata.find(field => field.name === fieldName);
+    const combinedRopeMetadata = [
+      ...this.ropeMetadata,
+      ...this.breakingLoadMetadata,
+      ...this.constructionInfoMetaData,
+    ];
+    return combinedRopeMetadata.find((field) => field.name === fieldName);
   }
 }
