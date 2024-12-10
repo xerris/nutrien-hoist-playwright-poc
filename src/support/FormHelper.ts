@@ -7,17 +7,22 @@ export class FormHelper {
 
     // Split the string by spaces, make the first word uppercase, rest lowercase
     const words = escapedString.split(' ');
-    return words
-      .map((word, index) => (index === 0 ? word : word.toLowerCase()))
-      .join(' ');
+    return words.map((word, index) => (index === 0 ? word : word.toLowerCase())).join(' ');
   }
 
   // Main method to fill form fields based on type
-  public async fillFormField(page: Page, { type, name, value }: {
-    type: string;
-    name: string;
-    value: string;
-  }): Promise<void> {
+  public async fillFormField(
+    page: Page,
+    {
+      type,
+      name,
+      value
+    }: {
+      type: string;
+      name: string;
+      value: string;
+    }
+  ): Promise<void> {
     switch (type) {
       case 'select':
         await this.fillSelectField(page, name, value);
@@ -49,5 +54,39 @@ export class FormHelper {
   // Method to fill input fields
   private async fillInputField(page: Page, name: string, value: string): Promise<void> {
     await page.getByRole('textbox', { name }).fill(value.toString());
+  }
+
+  public async fillFormFieldByLocator(
+    page: Page,
+    {
+      locator,
+      type,
+      value,
+      name
+    }: {
+      locator: string;
+      type: string;
+      value: string;
+      name: string;
+    }
+  ): Promise<void> {
+    switch (type) {
+      case 'select':
+        await this.fillSelectByLocator(page, name, value);
+        break;
+      case 'input':
+      default:
+        await this.fillInputByLocator(page, locator, value);
+    }
+  }
+
+  private async fillSelectByLocator(page: Page, name: string, value: string): Promise<void> {
+    // enabling the select by clicking the label text for the field
+    await page.getByText(name, { exact: true }).click();
+    await page.getByRole('option', { name: value }).click();
+  }
+
+  private async fillInputByLocator(page: Page, locator: string, value: string): Promise<void> {
+    await page.locator(locator).fill(value);
   }
 }

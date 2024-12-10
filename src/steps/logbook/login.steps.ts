@@ -1,22 +1,25 @@
 import { Given, Then, When } from '@cucumber/cucumber';
 
-import { Browser, Page, chromium } from '@playwright/test';
+import { Browser, chromium, Page } from '@playwright/test';
 import { LoginPage } from '../../pages/Logbook/LoginPage';
 import { ILogbookWorld } from '../../support/logbook-world';
 
 let browser: Browser;
 let page: Page;
 
-Given('I login as a minesight user in logbook', async function (this: ILogbookWorld) {
+Given('I login as a Minesight user in logbook', async function (this: ILogbookWorld) {
   await Promise.resolve();
   console.log('Login stub completed');
 });
 
-Given('Given I am on the login page of Logbook in the DEV env', async function (this: ILogbookWorld) {
-  browser = await chromium.launch({ headless: false });
-  page = await browser.newPage();
-  await page.goto('https://dev-hoist.minesight.nutrien.com');
-});
+Given(
+  'Given I am on the login page of Logbook in the DEV env',
+  async function (this: ILogbookWorld) {
+    browser = await chromium.launch({ headless: false });
+    page = await browser.newPage();
+    await page.goto('https://dev-hoist.minesight.nutrien.com');
+  }
+);
 
 When('I enter the email in the email field', async function (this: ILogbookWorld) {
   const emailField = page.getByTestId('login-email');
@@ -43,7 +46,7 @@ Then('I should be redirected to the Home screen', async function (this: ILogbook
   console.log('I should be redirected to the actions page stub completed');
 });
 
-Given('I am logged in as a minesight test user', async function (this: ILogbookWorld) {
+Given('I am logged in as a Minesight test user', async function (this: ILogbookWorld) {
   const browser: Browser = await chromium.launch({ headless: false });
   const page: Page = await browser.newPage();
 

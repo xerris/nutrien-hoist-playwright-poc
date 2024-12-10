@@ -17,17 +17,18 @@ export class CreateActionItem {
   }
 
   private actionItemMetadata: ActionItemMetadata[] = [
-    { name: 'Action item', locator: '#mui-21220', type: 'select' },
+    // locator for the select types are not req / works, so we'll prob remove that
+    { name: 'Action item', locator: '#mui-29914', type: 'select' },
     { name: 'Elevation (optional)', locator: 'input[name="elevation"]', type: 'input' },
     { name: 'Comment', locator: 'textarea[name="comment"]', type: 'input' },
-    { name: 'Reported by', locator: '#mui-81220', type: 'select' }
+    { name: 'Reported by', locator: '#mui-20023', type: 'select' }
   ];
 
   private settersMap: Record<string, (value: string) => Promise<void>> = {
     'Action item': this.setActionItem.bind(this),
-    'Elevation (optional)': this.setActionItem.bind(this),
-    'Comment': this.setActionItem.bind(this),
-    'Reported by': this.setActionItem.bind(this)
+    'Elevation (optional)': this.setElevation.bind(this),
+    'Comment': this.setComment.bind(this),
+    'Reported by': this.setReportedBy.bind(this)
   };
 
   // Setter methods for each field
@@ -64,10 +65,11 @@ export class CreateActionItem {
     if (!fieldMetadata) throw new Error(`${fieldName}: not found`);
 
     console.log(`filling: ${fieldName} with value: ${value}`);
-    await this.formHelper.fillFormField(this.page, {
+    await this.formHelper.fillFormFieldByLocator(this.page, {
       type: fieldMetadata.type,
-      name: fieldMetadata.name,
-      value: value
+      locator: fieldMetadata.locator,
+      name: fieldName,
+      value
     });
   }
 

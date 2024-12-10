@@ -15,12 +15,10 @@ Given(
   async function (this: ILogbookWorld, dataTable: DataTable): Promise<void> {
     const page = this.page!;
     const actionEntities = dataTable.rowsHash();
-    const actionItem = new CreateActionItem(page); // Create an instance of CreateRopeRecord
+    const actionItem = new CreateActionItem(page);
 
     for (const [fieldName, value] of Object.entries(actionEntities)) {
-      const cleanValue = value.replace(/"/g, '').trim().toLowerCase(); // Clean up value
-
-      await actionItem.setFieldValue(fieldName, cleanValue);
+      await actionItem.setFieldValue(fieldName, value);
     }
     await executeWithDelay();
   }
@@ -38,7 +36,7 @@ async function executeWithDelay() {
   console.log('Done');
 }
 
-When('I click on Save', async function (this: ILogbookWorld) {
+When('I click on Save in Action Item form', async function (this: ILogbookWorld) {
   const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
   const testName = this.testName ?? 'unknown';
 
