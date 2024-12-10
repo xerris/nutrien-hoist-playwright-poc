@@ -8,10 +8,10 @@ import {
   Page,
   PlaywrightTestOptions
 } from '@playwright/test';
-import { EnvironmentConfig, environments } from '../config/hoist-environments';
-import { CreateRopeRecord } from '../pages/Hoist/CreateRopeRecord';
 
-export interface IHoistWorld extends World {
+import { EnvironmentConfig, environments } from '../config/logbook-environments';
+
+export interface ILogbookWorld extends World {
   debug: boolean;
   feature?: messages.Pickle;
   browser?: Browser;
@@ -25,10 +25,10 @@ export interface IHoistWorld extends World {
   playwrightOptions?: PlaywrightTestOptions;
   baseUrl: string; // Add this line
   envConfig: EnvironmentConfig;
-  ropeRecord?: CreateRopeRecord;
   generatedSerialNumber?: string;
 }
-export class HoistWorld extends World implements IHoistWorld {
+
+export class LogbookWorld extends World implements ILogbookWorld {
   debug = false;
   baseUrl: string;
   envConfig: EnvironmentConfig;
@@ -36,7 +36,6 @@ export class HoistWorld extends World implements IHoistWorld {
   context?: BrowserContext;
   page?: Page;
   cookies?: Cookie[] = []; // new change
-  ropeRecord?: CreateRopeRecord;
   generatedSerialNumber?: string;
 
   static sharedState: { generatedSerialNumber?: string } = {};
@@ -51,4 +50,4 @@ export class HoistWorld extends World implements IHoistWorld {
   }
 }
 
-setWorldConstructor(HoistWorld);
+setWorldConstructor(LogbookWorld);

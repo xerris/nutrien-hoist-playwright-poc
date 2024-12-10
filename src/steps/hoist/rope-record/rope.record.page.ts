@@ -1,6 +1,6 @@
 import { DataTable, Given, When } from '@cucumber/cucumber';
 import { UniqueIdentifierGenerator } from '../../../support/UniqueIdentifierGenerator';
-import { CreateRopeRecord } from '../../../pages/CreateRopeRecord';
+import { CreateRopeRecord } from '../../../pages/Hoist/CreateRopeRecord';
 import { HoistWorld, IHoistWorld } from '../../../support/hoist-world';
 
 Given('I add a new rope', async function (this: IHoistWorld) {

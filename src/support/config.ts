@@ -1,4 +1,7 @@
 import { LaunchOptions } from '@playwright/test';
+import { setDefaultTimeout } from '@cucumber/cucumber';
+
+setDefaultTimeout(180 * 1000); // 3 minutes timeout
 const browserOptions: LaunchOptions = {
   slowMo: 0,
   args: ['--use-fake-ui-for-media-stream', '--use-fake-device-for-media-stream'],
