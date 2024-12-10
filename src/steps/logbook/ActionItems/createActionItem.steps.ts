@@ -1,7 +1,7 @@
 import { DataTable, Given, When } from '@cucumber/cucumber';
 
 import { ILogbookWorld } from '../../../support/logbook-world';
-import { CreateActionItem } from '../../../pages/Logbook/CreateRopeRecord';
+import { CreateActionItem } from '../../../pages/Logbook/CreateNewActionItem';
 
 Given('I create a new Action Item', async function (this: ILogbookWorld) {
   const page = this.page!;
