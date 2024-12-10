@@ -1,14 +1,14 @@
-import { setWorldConstructor, World, IWorldOptions } from '@cucumber/cucumber';
+import { IWorldOptions, setWorldConstructor, World } from '@cucumber/cucumber';
 import * as messages from '@cucumber/messages';
 import {
-  BrowserContext,
-  Page,
-  PlaywrightTestOptions,
   APIRequestContext,
   Browser,
-  Cookie
+  BrowserContext,
+  Cookie,
+  Page,
+  PlaywrightTestOptions
 } from '@playwright/test';
-import { environments, EnvironmentConfig } from '../config/hoist-environments';
+import { EnvironmentConfig, environments } from '../config/hoist-environments';
 import { CreateRopeRecord } from '../pages/CreateRopeRecord';
 
 export interface IHoistWorld extends World {
@@ -27,7 +27,6 @@ export interface IHoistWorld extends World {
   envConfig: EnvironmentConfig;
   ropeRecord?: CreateRopeRecord;
   generatedSerialNumber?: string;
-
 }
 export class HoistWorld extends World implements IHoistWorld {
   debug = false;

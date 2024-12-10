@@ -40,6 +40,7 @@ Given(
     await page.getByRole('gridcell', { name: serialNumber, exact: true }).click();
     const text = page.getByText('Rope record details', { exact: true });
     await expect(text).toBeVisible();
+    await this.page?.screenshot({ path: 'new-rope-detail-page.png', fullPage: true });
     console.log('Rope record successfully created.');
   }
 );
