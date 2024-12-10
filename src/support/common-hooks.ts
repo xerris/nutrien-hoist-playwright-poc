@@ -10,7 +10,7 @@ import {
   WebKitBrowser,
   ConsoleMessage,
   request,
-  Browser
+  Browser,
 } from '@playwright/test';
 import { ensureDir } from 'fs-extra';
 
@@ -25,21 +25,24 @@ declare global {
 setDefaultTimeout(process.env.PWDEBUG ? -1 : 60 * 1000);
 
 BeforeAll(async function () {
-  switch (config.browser) {
-    case 'firefox':
-      browser = await firefox.launch(config.browserOptions);
-      break;
-    case 'webkit':
-      browser = await webkit.launch(config.browserOptions);
-      break;
-    case 'msedge':
-      browser = await chromium.launch({ ...config.browserOptions, channel: 'msedge' });
-      break;
-    case 'chrome':
-      browser = await chromium.launch({ ...config.browserOptions, channel: 'chrome' });
-      break;
-    default:
-      browser = await chromium.launch(config.browserOptions);
+  // Launch browser only once
+  if (!browser) {
+    switch (config.browser) {
+      case 'firefox':
+        browser = await firefox.launch(config.browserOptions);
+        break;
+      case 'webkit':
+        browser = await webkit.launch(config.browserOptions);
+        break;
+      case 'msedge':
+        browser = await chromium.launch({ ...config.browserOptions, channel: 'msedge' });
+        break;
+      case 'chrome':
+        browser = await chromium.launch({ ...config.browserOptions, channel: 'chrome' });
+        break;
+      default:
+        browser = await chromium.launch(config.browserOptions);
+    }
   }
   await ensureDir(tracesDir);
 });
@@ -59,11 +62,11 @@ Before(async function (this: IHoistWorld, { pickle }) {
   this.context = await browser.newContext({
     acceptDownloads: true,
     recordVideo: process.env.PWVIDEO ? { dir: 'screenshots' } : undefined,
-    viewport: { width: 1200, height: 800 }
+    viewport: { width: 1200, height: 800 },
   });
   this.server = await request.newContext({
     // All requests we send go to this API endpoint.
-    baseURL: config.BASE_API_URL
+    baseURL: config.BASE_API_URL,
   });
 
   await this.context.tracing.start({ screenshots: true, snapshots: true });
@@ -90,7 +93,7 @@ After(async function (this: IHoistWorld, { result }) {
         this.attach(image, 'image/png');
       }
       await this.context?.tracing.stop({
-        path: `${tracesDir}/${this.testName}-${timePart}trace.zip`
+        path: `${tracesDir}/${this.testName}-${timePart}trace.zip`,
       });
     }
   }

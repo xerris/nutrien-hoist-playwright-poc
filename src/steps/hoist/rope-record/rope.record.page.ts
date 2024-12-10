@@ -1,60 +1,64 @@
-import { IHoistWorld } from '../../../support/hoist-world';
-import { DataTable, Given, Then, When } from '@cucumber/cucumber';
+import { DataTable, Given, When } from '@cucumber/cucumber';
+import { UniqueIdentifierGenerator } from '../../../support/UniqueIdentifierGenerator';
+import { CreateRopeRecord } from '../../../pages/Hoist/CreateRopeRecord';
+import { HoistWorld, IHoistWorld } from '../../../support/hoist-world';
 
-Given('I press the Add records button', async function (this: IHoistWorld) {
-  console.log('I press the Add records button');
-  console.log(`baseUrl: ${this.baseUrl}`);
-
-  // Stub await using Promise.resolve()
-  await Promise.resolve();
-
-  console.log('Add records button pressed stub completed');
+Given('I add a new rope', async function (this: IHoistWorld) {
+  const createRopeRecord = new CreateRopeRecord(this.page!);
+  await createRopeRecord.addNewRope();
 });
 
-Given('I select the Add new rope button', async function (this: IHoistWorld) {
-  console.log('I select the Add new rope button');
-  console.log(`baseUrl: ${this.baseUrl}`);
+Given(
+  'I provide the following rope information - greg',
+  async function (this: IHoistWorld, dataTable: DataTable): Promise<void> {
+    const page = this.page!;
+    const uniqueGenerator = new UniqueIdentifierGenerator();
+    const ropeInfo = dataTable.rowsHash();
+    const ropeRecord = new CreateRopeRecord(page); // Create an instance of CreateRopeRecord
 
-  // Stub await using Promise.resolve()
-  await Promise.resolve();
+    for (const [fieldName, value] of Object.entries(ropeInfo)) {
+      let cleanValue = value.replace(/"/g, '').trim().toLowerCase(); // Clean up value
 
-  console.log('Add new rope button pressed stub completed');
-});
-
-Given('I provide the following rope information', async function (dataTable: DataTable) {
-  console.log('I provide the following rope information');
-  console.log(`baseUrl: ${this.baseUrl}`);
-
-  const ropeInfo = dataTable.rowsHash();
-
-  for (const [field, value] of Object.entries(ropeInfo)) {
-    console.log(`Field: ${field}, Value: ${value}`);
-    // Use the field and value as needed, e.g., to fill in form fields
-    console.log(`await this.page.fill('#${field}', '${value}');`);
+      if (fieldName === 'Serial number') {
+        cleanValue = uniqueGenerator.generateUniqueValue('CUCSNO', 6); // Generate unique serial number
+        this.generatedSerialNumber = cleanValue;
+        HoistWorld.sharedState.generatedSerialNumber = cleanValue;
+      }
+      await ropeRecord.setFieldValue(fieldName, cleanValue);
+    }
+    this.ropeRecord = ropeRecord;
+    await executeWithDelay();
   }
+);
 
-  // Stub await using Promise.resolve()
-  await Promise.resolve();
+// Define the sleep function
+async function sleep(ms: number): Promise<void> {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
 
-  console.log('Rope data information stub completed');
+// Usage of the sleep function
+async function executeWithDelay() {
+  console.log('Taking a break');
+  await sleep(5000); // Pause for 5 seconds
+  console.log('Done');
+}
+
+When('I do this', function (this: IHoistWorld) {
+  if (this.generatedSerialNumber) {
+    console.log(`Generated serial number: ${HoistWorld.sharedState.generatedSerialNumber}`);
+  }
 });
 
-When('I press the Add new rope save button', async function (this: IHoistWorld) {
-  console.log('I press the Add new rope save button');
-  console.log(`baseUrl: ${this.baseUrl}`);
+When('I click on Save', async function (this: IHoistWorld) {
+  const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+  const testName = this.testName ?? 'unknown';
 
-  // Stub await using Promise.resolve()
-  await Promise.resolve();
+  const screenshotPath = `screenshots/features/${testName}/before-save-${timestamp}.png`;
 
-  console.log('Add new rope save button pressed stub completed');
-});
+  await this.page?.screenshot({
+    path: screenshotPath,
+    fullPage: true
+  });
 
-Then('I should receive a success message', async function (this: IHoistWorld) {
-  console.log('I should receive a success message');
-  console.log(`baseUrl: ${this.baseUrl}`);
-
-  // Stub await using Promise.resolve()
-  await Promise.resolve();
-
-  console.log('I should receive a success message stub completed');
+  await this.page?.getByRole('button', { name: 'Save' }).click();
 });
