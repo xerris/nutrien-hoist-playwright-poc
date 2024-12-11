@@ -1,4 +1,4 @@
-#@Action-Items
+#@Hoist @Action-Items
 #Feature: Action Items
 
 #  Background: Actions
@@ -6,4 +6,4 @@
 
 #  Scenario: Validate Action Items
 ##    Then I can see Hoist and shaft action items text
- 
+

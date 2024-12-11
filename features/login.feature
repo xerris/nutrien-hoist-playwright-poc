@@ -1,4 +1,4 @@
-#@HoistLogin
+#@Hoist @HoistLogin
 #Feature: Login
 
 #  Background:
