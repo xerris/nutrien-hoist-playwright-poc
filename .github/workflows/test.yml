@@ -3,6 +3,9 @@ name: Test
 env:
   CI: true
   DEBUG: pw:api
+  HOIST_USERNAME: ${{ secrets.HOIST_USERNAME }}
+  HOIST_PASSWORD: ${{ secrets.HOIST_PASSWORD }}
+  HOIST_OTP_SECRET: ${{ secrets.HOIST_OTP_SECRET }}
 
 on:
   push:

@@ -13,6 +13,7 @@ import {
   Browser,
 } from '@playwright/test';
 import { ensureDir } from 'fs-extra';
+import { LoginPage } from '../pages/Hoist/LoginPage';
 
 let browser: ChromiumBrowser | FirefoxBrowser | WebKitBrowser | Browser;
 const tracesDir = 'traces';
@@ -77,6 +78,9 @@ Before(async function (this: IHoistWorld, { pickle }) {
     }
   });
   this.feature = pickle;
+
+  const loginPage = new LoginPage(this.page);
+  await loginPage.doLogin();
 });
 
 After(async function (this: IHoistWorld, { result }) {
