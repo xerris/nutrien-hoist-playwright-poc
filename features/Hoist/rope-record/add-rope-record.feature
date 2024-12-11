@@ -31,5 +31,5 @@ Feature: Rope Records
         | Breaking load                  | 123          |
         | Test number                    | 12           |
         | Test date                      | 6            |
-    When I click on Save
+      When I click on Save
       Then I should be able to navigate to the Rope Detail Page for created rope

@@ -26,6 +26,7 @@ export interface ILogbookWorld extends World {
   baseUrl: string; // Add this line
   envConfig: EnvironmentConfig;
   generatedSerialNumber?: string;
+  actionItemDetails?: Record<string, string>;
 }
 
 export class LogbookWorld extends World implements ILogbookWorld {
@@ -37,6 +38,7 @@ export class LogbookWorld extends World implements ILogbookWorld {
   page?: Page;
   cookies?: Cookie[] = []; // new change
   generatedSerialNumber?: string;
+  actionItemDetails?: Record<string, string>;
 
   static sharedState: { generatedSerialNumber?: string } = {};
 
