@@ -1,4 +1,3 @@
-import { IHoistWorld } from './hoist-world';
 import { config } from './config';
 import { Before, After, BeforeAll, AfterAll, Status, setDefaultTimeout } from '@cucumber/cucumber';
 import {
@@ -13,7 +12,8 @@ import {
   Browser,
 } from '@playwright/test';
 import { ensureDir } from 'fs-extra';
-import { LoginPage } from '../pages/Hoist/LoginPage';
+import { LoginPage } from '../pages/LoginPage';
+import { IHoistWorld } from './hoist-world';
 
 let browser: ChromiumBrowser | FirefoxBrowser | WebKitBrowser | Browser;
 const tracesDir = 'traces';
