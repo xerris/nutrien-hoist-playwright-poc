@@ -1,7 +1,7 @@
 import { Given } from '@cucumber/cucumber';
 
-import { ILogbookWorld } from '../../support/logbook-world';
-import { MonthlyActionItemPage } from '../../pages/Logbook/MonthlyActionItemPage';
+import { MonthlyActionItemPage } from '../pages/MonthlyActionItemPage';
+import { ILogbookWorld } from '../support/logbook-world';
 
 Given('I navigate to Monthly Action items page', async function (this: ILogbookWorld) {
   const page = this.page!;

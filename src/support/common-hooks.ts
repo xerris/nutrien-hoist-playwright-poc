@@ -1,18 +1,19 @@
-import { IHoistWorld } from './hoist-world';
-import { config } from './config';
-import { Before, After, BeforeAll, AfterAll, Status, setDefaultTimeout } from '@cucumber/cucumber';
+import { After, AfterAll, Before, BeforeAll, setDefaultTimeout, Status } from '@cucumber/cucumber';
 import {
+  Browser,
   chromium,
   ChromiumBrowser,
+  ConsoleMessage,
   firefox,
   FirefoxBrowser,
+  request,
   webkit,
   WebKitBrowser,
-  ConsoleMessage,
-  request,
-  Browser,
 } from '@playwright/test';
 import { ensureDir } from 'fs-extra';
+
+import { config } from './config';
+import { ILogbookWorld } from './logbook-world';
 
 let browser: ChromiumBrowser | FirefoxBrowser | WebKitBrowser | Browser;
 const tracesDir = 'traces';
@@ -51,11 +52,11 @@ Before({ tags: '@ignore' }, function () {
   return 'skipped';
 });
 
-Before({ tags: '@debug' }, function (this: IHoistWorld) {
+Before({ tags: '@debug' }, function (this: ILogbookWorld) {
   this.debug = true;
 });
 
-Before(async function (this: IHoistWorld, { pickle }) {
+Before(async function (this: ILogbookWorld, { pickle }) {
   this.startTime = new Date();
   this.testName = pickle.name.replace(/\W/g, '-');
   // customize the [browser context](https://playwright.dev/docs/next/api/class-browser#browsernewcontextoptions)
@@ -79,7 +80,7 @@ Before(async function (this: IHoistWorld, { pickle }) {
   this.feature = pickle;
 });
 
-After(async function (this: IHoistWorld, { result }) {
+After(async function (this: ILogbookWorld, { result }) {
   if (result) {
     this.attach(`Status: ${result?.status}. Duration:${result.duration?.seconds}s`);
 

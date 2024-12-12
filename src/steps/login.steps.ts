@@ -1,8 +1,8 @@
 import { Given, Then, When } from '@cucumber/cucumber';
-
 import { Browser, chromium, Page } from '@playwright/test';
-import { LoginPage } from '../../pages/Logbook/LoginPage';
-import { ILogbookWorld } from '../../support/logbook-world';
+
+import { LoginPage } from '../pages/LoginPage';
+import { ILogbookWorld } from '../support/logbook-world';
 
 let browser: Browser;
 let page: Page;
@@ -18,7 +18,7 @@ Given(
     browser = await chromium.launch({ headless: false });
     page = await browser.newPage();
     await page.goto('https://dev-hoist.minesight.nutrien.com');
-  }
+  },
 );
 
 When('I enter the email in the email field', async function (this: ILogbookWorld) {
