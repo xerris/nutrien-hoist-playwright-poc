@@ -1,8 +1,8 @@
-import { IHoistWorld } from '../../support/hoist-world';
+import { IHoistWorld } from '../support/hoist-world';
 import { Given, Then, When } from '@cucumber/cucumber';
 
 import { Browser, Page, chromium } from '@playwright/test';
-import { LoginPage } from '../../pages/Hoist/LoginPage';
+import { LoginPage } from '../pages/LoginPage';
 
 let browser: Browser;
 let page: Page;

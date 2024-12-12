@@ -1,5 +1,5 @@
 import { expect } from 'playwright/test';
-import { HoistWorld, IHoistWorld } from '../../support/hoist-world';
+import { HoistWorld, IHoistWorld } from '../support/hoist-world';
 import { Given } from '@cucumber/cucumber';
 
 Given('I navigate to the Rope record page', async function (this: IHoistWorld) {
@@ -18,18 +18,15 @@ Given(
     await page.getByRole('gridcell', { name: serialNumber, exact: true }).click();
     const text = page.getByText('Rope record details', { exact: true });
     await expect(text).toBeVisible();
-  }
+  },
 );
 
-Given(
-  'I navigate to the Rope Detail Page for a {string} rope',
-  async function (this: IHoistWorld, status: string) {
-    const page = this.page!;
-    await page.getByRole('gridcell', { name: 'status' }).click();
-    const text = page.getByText('Rope record details', { exact: true });
-    await expect(text).toBeVisible();
-  }
-);
+Given('I navigate to the Rope Detail Page for a {string} rope', async function (this: IHoistWorld) {
+  const page = this.page!;
+  await page.getByRole('gridcell', { name: 'status' }).click();
+  const text = page.getByText('Rope record details', { exact: true });
+  await expect(text).toBeVisible();
+});
 
 Given(
   'I should be able to navigate to the Rope Detail Page for created rope',
@@ -42,5 +39,5 @@ Given(
     await expect(text).toBeVisible();
     await this.page?.screenshot({ path: 'new-rope-detail-page.png', fullPage: true });
     console.log('Rope record successfully created.');
-  }
+  },
 );

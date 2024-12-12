@@ -1,5 +1,5 @@
 import { expect, Page } from '@playwright/test';
-import { FormHelper } from '../../support/FormHelper';
+import { FormHelper } from '../support/FormHelper';
 
 interface RopeMetadata {
   name: string;
@@ -27,40 +27,40 @@ export class CreateRopeRecord {
     { name: 'Grade of steel', locator: 'input[name="grade"]', type: 'input' },
     { name: 'Manufacturer name', locator: 'input[name="manufacturerName"]', type: 'input' },
     { name: 'Manufacturer address', locator: 'input[name="manufacturerAddress"]', type: 'input' },
-    { name: 'Manufacture date', locator: 'input[name="manufactureDate"]', type: 'date' }
+    { name: 'Manufacture date', locator: 'input[name="manufactureDate"]', type: 'date' },
   ];
 
   private breakingLoadMetadata: RopeMetadata[] = [
     { name: 'Breaking load', locator: 'Breaking load', type: 'input' },
     { name: 'Test number', locator: 'Test number', type: 'input' },
-    { name: 'Test date', locator: 'Test date', type: 'date' }
+    { name: 'Test date', locator: 'Test date', type: 'date' },
   ];
 
   private constructionInfoMetaData: RopeMetadata[] = [
     {
       name: 'Class of core used in the rope',
       locator: 'Class of core used in the rope',
-      type: 'input'
+      type: 'input',
     },
     {
       name: 'Number of strands in the rope',
       locator: 'Number of strands in the rope',
-      type: 'input'
+      type: 'input',
     },
     {
       name: 'Number of wires in each strand',
       locator: 'Number of wires in each strand',
-      type: 'input'
+      type: 'input',
     },
     { name: 'Diameter of wires', locator: 'Diameter of wires', type: 'input' },
     { name: 'Breaking stress of steel', locator: 'Breaking stress of steel', type: 'input' },
     {
       name: 'Standard torsion test of the',
       locator: 'Standard torsion test of the',
-      type: 'input'
+      type: 'input',
     },
     { name: 'The percentage by mass of', locator: 'The percentage by mass of', type: 'input' },
-    { name: 'The trade name of the', locator: 'The trade name of the', type: 'input' }
+    { name: 'The trade name of the', locator: 'The trade name of the', type: 'input' },
   ];
 
   private settersMap: Record<string, (value: string) => Promise<void>> = {
@@ -85,7 +85,7 @@ export class CreateRopeRecord {
     'Breaking stress of steel': this.setBreakingStress.bind(this),
     'Standard torsion test of the': this.setStandardTorsion.bind(this),
     'The percentage by mass of': this.setPercentageByMass.bind(this),
-    'The trade name of the': this.setTradeName.bind(this)
+    'The trade name of the': this.setTradeName.bind(this),
   };
 
   // Method to dynamically call the appropriate setter
@@ -197,7 +197,7 @@ export class CreateRopeRecord {
     await this.formHelper.fillFormField(this.page, {
       type: fieldMetadata.type,
       name: fieldMetadata.name,
-      value: value
+      value: value,
     });
   }
 
@@ -206,7 +206,7 @@ export class CreateRopeRecord {
     const combinedRopeMetadata = [
       ...this.ropeMetadata,
       ...this.breakingLoadMetadata,
-      ...this.constructionInfoMetaData
+      ...this.constructionInfoMetaData,
     ];
     return combinedRopeMetadata.find(field => field.name === fieldName);
   }
