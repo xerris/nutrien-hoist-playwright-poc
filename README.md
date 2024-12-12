@@ -32,6 +32,14 @@ This repository is based on the [Cucumber-typescript-starter](https://github.com
 `npm install` to install node modules
 `npx playwright install` to install Playwright
 
+For the MS365 MFA login flow to work locally you will need to create a .env file in the root of the project with the following variables:
+
+```
+HOIST_USERNAME=
+HOIST_PASSWORD=
+HOIST_OTP_SECRET=
+```
+
 ## Usage
 
 Create a repo based on this template and start writing your tests.
