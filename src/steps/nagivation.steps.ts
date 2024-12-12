@@ -1,6 +1,8 @@
-import { expect } from 'playwright/test';
-import { HoistWorld, IHoistWorld } from '../support/hoist-world';
 import { Given } from '@cucumber/cucumber';
+import { expect } from 'playwright/test';
+
+import { SCREENSHOT_DIR } from '../../constants';
+import { HoistWorld, IHoistWorld } from '../support/hoist-world';
 
 Given('I navigate to the Rope record page', async function (this: IHoistWorld) {
   const page = this.page!;
@@ -37,7 +39,10 @@ Given(
     await page.getByRole('gridcell', { name: serialNumber, exact: true }).click();
     const text = page.getByText('Rope record details', { exact: true });
     await expect(text).toBeVisible();
-    await this.page?.screenshot({ path: 'new-rope-detail-page.png', fullPage: true });
+    await this.page?.screenshot({
+      path: `${SCREENSHOT_DIR}/new-rope-detail-page.png`,
+      fullPage: true,
+    });
     console.log('Rope record successfully created.');
   },
 );

@@ -1,8 +1,8 @@
 import { DataTable, Given, Then, When } from '@cucumber/cucumber';
-
-import { IHoistWorld } from '../../../support/hoist-world';
 import { expect } from 'playwright/test';
+
 import { CreateRopeRecord } from '../../../pages/CreateRopeRecord';
+import { IHoistWorld } from '../../../support/hoist-world';
 
 Then(
   'the following sections should be visible:',

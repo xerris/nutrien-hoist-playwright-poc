@@ -1,7 +1,9 @@
 import { DataTable, Given, When } from '@cucumber/cucumber';
-import { UniqueIdentifierGenerator } from '../../support/UniqueIdentifierGenerator';
+
+import { SCREENSHOT_DIR } from '../../../constants';
 import { CreateRopeRecord } from '../../pages/CreateRopeRecord';
 import { HoistWorld, IHoistWorld } from '../../support/hoist-world';
+import { UniqueIdentifierGenerator } from '../../support/UniqueIdentifierGenerator';
 
 Given('I add a new rope', async function (this: IHoistWorld) {
   const createRopeRecord = new CreateRopeRecord(this.page!);
@@ -53,7 +55,7 @@ When('I click on Save', async function (this: IHoistWorld) {
   const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
   const testName = this.testName ?? 'unknown';
 
-  const screenshotPath = `screenshots/features/${testName}/before-save-${timestamp}.png`;
+  const screenshotPath = `${SCREENSHOT_DIR}/features/${testName}/before-save-${timestamp}.png`;
 
   await this.page?.screenshot({
     path: screenshotPath,
