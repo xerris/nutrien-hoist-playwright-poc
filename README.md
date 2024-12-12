@@ -1,6 +1,6 @@
 # cucumber-playwright
 
-![Test](https://github.com/Tallyb/cucumber-playwright/workflows/Test/badge.svg)
+![Test](https://github.com/xerris/nutrien-hoist-playwright-poc/workflows/Test/badge.svg)
 
 A starter repo for writing E2E tests based on Cucumber(7) with Playwright using Typescript.
 
