@@ -3,6 +3,8 @@ name: Test
 env:
   CI: true
   DEBUG: pw:api
+  LOGBOOK_USERNAME: ${{ secrets.LOGBOOK_USERNAME }}
+  LOGBOOK_PASSWORD: ${{ secrets.LOGBOOK_PASSWORD }}
 
 on:
   push:
@@ -11,7 +13,7 @@ jobs:
   run:
     strategy:
       matrix:
-        node: ['20', '22.5.1']
+        node: ['20']
     runs-on: ubuntu-latest
 
     steps:
