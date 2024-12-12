@@ -6,10 +6,11 @@ import {
   BrowserContext,
   Cookie,
   Page,
-  PlaywrightTestOptions
+  PlaywrightTestOptions,
 } from '@playwright/test';
+
 import { EnvironmentConfig, environments } from '../config/hoist-environments';
-import { CreateRopeRecord } from '../pages/Hoist/CreateRopeRecord';
+import { CreateRopeRecord } from '../pages/CreateRopeRecord';
 
 export interface IHoistWorld extends World {
   debug: boolean;

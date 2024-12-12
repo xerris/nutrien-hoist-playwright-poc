@@ -72,7 +72,7 @@ Before(async function (this: IHoistWorld, { pickle }) {
   });
 
   const sessionStorage = JSON.parse(fs.readFileSync(SESSION_FILE, 'utf-8'));
-  await this.context.addInitScript(storage => {
+  await this.context.addInitScript((storage: Record<string, unknown> | ArrayLike<unknown>) => {
     if (window.location.hostname === 'dev.minesight.nutrien.com') {
       for (const [key, value] of Object.entries(storage))
         window.sessionStorage.setItem(key, value as string);
