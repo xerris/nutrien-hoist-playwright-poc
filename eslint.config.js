@@ -1,6 +1,7 @@
 // @ts-check
 import stylistic from '@stylistic/eslint-plugin';
 import playwright from 'eslint-plugin-playwright';
+import simpleImportSort from 'eslint-plugin-simple-import-sort';
 import tseslint from 'typescript-eslint';
 
 const includedFolders = ['src', 'features'];
@@ -36,9 +37,17 @@ export default tseslint.config(
     },
     plugins: {
       '@stylistic': stylistic,
+      'simple-import-sort': simpleImportSort,
     },
     rules: {
       ...customizedESLint.rules,
+      '@stylistic/arrow-parens': ['error', 'as-needed'],
+      '@typescript-eslint/no-unsafe-assignment': 'warn',
+      '@typescript-eslint/no-unsafe-call': 'warn',
+      '@typescript-eslint/no-unsafe-member-access': 'warn',
+      '@typescript-eslint/no-unsafe-argument': 'warn',
+      'simple-import-sort/imports': 'error',
+      'simple-import-sort/exports': 'error'
     },
   },
   {
