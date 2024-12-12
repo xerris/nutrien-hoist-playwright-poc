@@ -1,8 +1,8 @@
-import { IHoistWorld } from '../../support/hoist-world';
+import { IHoistWorld } from '../support/hoist-world';
 import { Given, Then, When } from '@cucumber/cucumber';
 
 import { Browser, Page, chromium } from '@playwright/test';
-import { LoginPage } from '../../pages/Hoist/LoginPage';
+import { LoginPage } from '../pages/LoginPage';
 
 let browser: Browser;
 let page: Page;
@@ -26,13 +26,13 @@ Given('I click on the login button', async function (this: IHoistWorld) {
 When('I enter the email in the email field', async function (this: IHoistWorld) {
   const emailField = page.locator('#i0116');
   await emailField.click();
-  await emailField.fill(this.envConfig.credentials?.username ?? '');
+  await emailField.fill(this.envConfig.credentials.username);
   await page.getByRole('button', { name: 'Next' }).click();
 });
 
 When('I enter the password in the password field', async function (this: IHoistWorld) {
   await page.locator('#i0118').click();
-  await page.locator('#i0118').fill(this.envConfig.credentials?.password ?? '');
+  await page.locator('#i0118').fill(this.envConfig.credentials?.password);
   await page.getByRole('button', { name: 'Sign in' }).click();
 
   await page.getByRole('button', { name: 'Yes' }).click();
@@ -52,8 +52,8 @@ Given('I am logged in as a site-admin', async function (this: IHoistWorld) {
 
   await loginPage.navigate(this.baseUrl);
   await loginPage.clickLogin();
-  await loginPage.enterUsername(this.envConfig.credentials?.username ?? '');
-  await loginPage.enterPassword(this.envConfig.credentials?.password ?? '');
+  await loginPage.enterUsername(this.envConfig.credentials?.username);
+  await loginPage.enterPassword(this.envConfig.credentials?.password);
   await loginPage.submit();
   await loginPage.confirmLogin();
   await loginPage.waitForSuccessfulLogin();

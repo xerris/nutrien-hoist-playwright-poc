@@ -1,4 +1,3 @@
-import { IHoistWorld } from './hoist-world';
 import { config } from './config';
 import { Before, After, BeforeAll, AfterAll, Status, setDefaultTimeout } from '@cucumber/cucumber';
 import {
@@ -13,6 +12,8 @@ import {
   Browser,
 } from '@playwright/test';
 import { ensureDir } from 'fs-extra';
+import { LoginPage } from '../pages/LoginPage';
+import { IHoistWorld } from './hoist-world';
 
 let browser: ChromiumBrowser | FirefoxBrowser | WebKitBrowser | Browser;
 const tracesDir = 'traces';
@@ -77,6 +78,9 @@ Before(async function (this: IHoistWorld, { pickle }) {
     }
   });
   this.feature = pickle;
+
+  const loginPage = new LoginPage(this.page);
+  await loginPage.doLogin();
 });
 
 After(async function (this: IHoistWorld, { result }) {

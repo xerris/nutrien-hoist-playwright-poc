@@ -1,7 +1,7 @@
 import { DataTable, Given, When } from '@cucumber/cucumber';
-import { UniqueIdentifierGenerator } from '../../../support/UniqueIdentifierGenerator';
-import { CreateRopeRecord } from '../../../pages/Hoist/CreateRopeRecord';
-import { HoistWorld, IHoistWorld } from '../../../support/hoist-world';
+import { UniqueIdentifierGenerator } from '../../support/UniqueIdentifierGenerator';
+import { CreateRopeRecord } from '../../pages/CreateRopeRecord';
+import { HoistWorld, IHoistWorld } from '../../support/hoist-world';
 
 Given('I add a new rope', async function (this: IHoistWorld) {
   const createRopeRecord = new CreateRopeRecord(this.page!);
@@ -28,7 +28,7 @@ Given(
     }
     this.ropeRecord = ropeRecord;
     await executeWithDelay();
-  }
+  },
 );
 
 // Define the sleep function
@@ -57,7 +57,7 @@ When('I click on Save', async function (this: IHoistWorld) {
 
   await this.page?.screenshot({
     path: screenshotPath,
-    fullPage: true
+    fullPage: true,
   });
 
   await this.page?.getByRole('button', { name: 'Save' }).click();
