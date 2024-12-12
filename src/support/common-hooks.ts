@@ -1,22 +1,22 @@
-import { config } from './config';
-import { Before, After, BeforeAll, AfterAll, Status, setDefaultTimeout } from '@cucumber/cucumber';
+import { After, AfterAll, Before, BeforeAll, setDefaultTimeout, Status } from '@cucumber/cucumber';
 import {
+  Browser,
   chromium,
   ChromiumBrowser,
+  ConsoleMessage,
   firefox,
   FirefoxBrowser,
+  request,
   webkit,
   WebKitBrowser,
-  ConsoleMessage,
-  request,
-  Browser,
 } from '@playwright/test';
-import { ensureDir } from 'fs-extra';
-import { LoginPage } from '../pages/LoginPage';
+import fs, { ensureDir } from 'fs-extra';
+
+import { AUTH_FILE, SESSION_FILE, TRACES_DIR } from '../../constants';
+import { config } from './config';
 import { IHoistWorld } from './hoist-world';
 
 let browser: ChromiumBrowser | FirefoxBrowser | WebKitBrowser | Browser;
-const tracesDir = 'traces';
 
 declare global {
   // eslint-disable-next-line no-var
@@ -45,7 +45,7 @@ BeforeAll(async function () {
         browser = await chromium.launch(config.browserOptions);
     }
   }
-  await ensureDir(tracesDir);
+  await ensureDir(TRACES_DIR);
 });
 
 Before({ tags: '@ignore' }, function () {
@@ -64,11 +64,20 @@ Before(async function (this: IHoistWorld, { pickle }) {
     acceptDownloads: true,
     recordVideo: process.env.PWVIDEO ? { dir: 'screenshots' } : undefined,
     viewport: { width: 1200, height: 800 },
+    storageState: AUTH_FILE,
   });
   this.server = await request.newContext({
     // All requests we send go to this API endpoint.
     baseURL: config.BASE_API_URL,
   });
+
+  const sessionStorage = JSON.parse(fs.readFileSync(SESSION_FILE, 'utf-8'));
+  await this.context.addInitScript(storage => {
+    if (window.location.hostname === 'dev.minesight.nutrien.com') {
+      for (const [key, value] of Object.entries(storage))
+        window.sessionStorage.setItem(key, value as string);
+    }
+  }, sessionStorage);
 
   await this.context.tracing.start({ screenshots: true, snapshots: true });
   this.page = await this.context.newPage();
@@ -78,9 +87,6 @@ Before(async function (this: IHoistWorld, { pickle }) {
     }
   });
   this.feature = pickle;
-
-  const loginPage = new LoginPage(this.page);
-  await loginPage.doLogin();
 });
 
 After(async function (this: IHoistWorld, { result }) {
@@ -97,7 +103,7 @@ After(async function (this: IHoistWorld, { result }) {
         this.attach(image, 'image/png');
       }
       await this.context?.tracing.stop({
-        path: `${tracesDir}/${this.testName}-${timePart}trace.zip`,
+        path: `${TRACES_DIR}/${this.testName}-${timePart}trace.zip`,
       });
     }
   }
