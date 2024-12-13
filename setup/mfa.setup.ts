@@ -31,21 +31,13 @@ setup('authenticate', async ({ page }) => {
   // 5. Click on the "Sign in" button
   await page.locator('input[type=submit]').click();
 
-  // ---- temp workaround for the purpose of writing tests ----
-  // await page.getByRole('link', { name: 'I can\'t use my Outlook mobile' }).click();
-  // await page.getByRole('button', { name: 'Use a verification code' }).click();
-  // await page.getByPlaceholder('Code').click();
-  // await page.getByPlaceholder('Code').fill(process.env.HOIST_OTP_SECRET);
-  // await page.getByRole('button', { name: 'Verify' }).click();
-  // --------------------------
-
   // 6. Check if the account has the Microsoft Authenticator app configured
   // const otherWayLink = page.locator('a#signInAnotherWay');
   // await otherWayLink.waitFor({ timeout: 2000 });
   // if (await otherWayLink.isVisible()) {
   //   // Select the TOTP option
   //   await otherWayLink.click();
-  //
+
   //   const otpLink = page.locator(`div[data-value="PhoneAppOTP"]`);
   //   await otpLink.click();
   // }

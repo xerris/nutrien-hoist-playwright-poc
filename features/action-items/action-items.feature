@@ -12,5 +12,6 @@ Feature: Action Items
     Given I navigate to the first action item
     And I edit the action item details with the following information
       | Action item | Downtime Required |
+      | Elevation   | 5                 |
     When I click on Save
     Then I should be able to see the updated Action item with 'Downtime Required'

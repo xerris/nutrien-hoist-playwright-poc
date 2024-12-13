@@ -36,7 +36,9 @@ export class ActionItems {
   }
 
   public async setElevation(value: string): Promise<void> {
-    await this.setField('Elevation', value);
+    const elevationLocator = this.page.getByLabel('Elevation').getByRole('textbox');
+    await elevationLocator.click();
+    await elevationLocator.fill(value);
   }
 
   public async setRopeNumber(value: string): Promise<void> {
