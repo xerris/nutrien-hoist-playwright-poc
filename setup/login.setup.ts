@@ -1,6 +1,5 @@
 import { test as setup } from '@playwright/test';
 import fs from 'fs';
-import * as OTPAuth from 'otpauth';
 
 import { SESSION_FILE, USER_FILE } from '../constants';
 
