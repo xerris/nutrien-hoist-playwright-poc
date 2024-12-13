@@ -12,6 +12,7 @@ const getWorldParams = () => {
   return params;
 };
 
+console.log('process.env.CI: ', process.env.CI);
 const config = {
   import: ['src/**/*.ts'],
   format: [
