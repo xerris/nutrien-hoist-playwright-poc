@@ -10,8 +10,9 @@ import {
   webkit,
   WebKitBrowser,
 } from '@playwright/test';
-import { ensureDir } from 'fs-extra';
+import fs, { ensureDir } from 'fs-extra';
 
+import { SCREENSHOT_DIR, SESSION_FILE, USER_FILE } from '../../constants';
 import { config } from './config';
 import { ILogbookWorld } from './logbook-world';
 
@@ -62,13 +63,23 @@ Before(async function (this: ILogbookWorld, { pickle }) {
   // customize the [browser context](https://playwright.dev/docs/next/api/class-browser#browsernewcontextoptions)
   this.context = await browser.newContext({
     acceptDownloads: true,
-    recordVideo: process.env.PWVIDEO ? { dir: 'screenshots' } : undefined,
+    recordVideo: process.env.PWVIDEO ? { dir: SCREENSHOT_DIR } : undefined,
     viewport: { width: 1200, height: 800 },
+    storageState: USER_FILE,
   });
   this.server = await request.newContext({
     // All requests we send go to this API endpoint.
     baseURL: config.BASE_API_URL,
   });
+
+  const sessionStorage = JSON.parse(fs.readFileSync(SESSION_FILE, 'utf-8'));
+  await this.context.addInitScript((storage: Record<string, unknown> | ArrayLike<unknown>) => {
+    // TODO: This should come from a config file
+    if (window.location.hostname === 'dev-hoist.minesight.nutrien.com') {
+      for (const [key, value] of Object.entries(storage))
+        window.sessionStorage.setItem(key, value as string);
+    }
+  }, sessionStorage);
 
   await this.context.tracing.start({ screenshots: true, snapshots: true });
   this.page = await this.context.newPage();

@@ -1,3 +1,9 @@
+import dotenv from 'dotenv';
+
+if (!process.env.CI) {
+  dotenv.config({ path: '.env' });
+}
+
 const getWorldParams = () => {
   const params = {
     foo: 'bar'

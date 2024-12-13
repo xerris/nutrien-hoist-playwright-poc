@@ -11,17 +11,17 @@ export const environments: Record<string, EnvironmentConfig> = {
   development: {
     baseUrl: 'https://dev-hoist.minesight.nutrien.com/',
     credentials: {
-      username: 'mine_operator@test.com',
-      password: 'Welcome@1'
-    }
+      username: 'dev-user',
+      password: 'dev-password',
+    },
   },
   staging: {
     baseUrl: 'https://stage-hoist.minesight.nutrien.com/',
     credentials: {
       username: 'stage-user',
-      password: 'stage-password'
-    }
-  }
+      password: 'stage-password',
+    },
+  },
   // production: {
   //   baseUrl: 'whatever-the-url-is',
   //   credentials: {
