@@ -1,6 +1,6 @@
 # cucumber-playwright
 
-![Test](https://github.com/Tallyb/cucumber-playwright/workflows/Test/badge.svg)
+![Test](https://github.com/xerris/nutrien-hoist-playwright-poc/workflows/Test/badge.svg)
 
 A starter repo for writing E2E tests based on Cucumber(7) with Playwright using Typescript.
 
@@ -31,6 +31,13 @@ This repository is based on the [Cucumber-typescript-starter](https://github.com
 ## Developer setup
 `npm install` to install node modules
 `npx playwright install` to install Playwright
+
+For the login flow to work locally you will need to create a `.env` file in the root of the project with the following variables:
+
+```
+LOGBOOK_USERNAME=
+LOGBOOK_PASSWORD=
+```
 
 ## Usage
 
