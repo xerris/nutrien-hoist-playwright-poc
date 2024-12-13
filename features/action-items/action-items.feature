@@ -8,7 +8,8 @@ Feature: Action Items
 ##    Then I can see Hoist and shaft action items text
 
     Scenario: Updating an action item
-    Given I navigate to an action item reported on 'Nov 12, 2024, 11:39 am'
+   # Given I navigate to an action item reported on 'Nov 12, 2024, 11:39 am'
+    Given I navigate to the first action item
     And I edit the action item details with the following information
       | Action item | Downtime Required |
     When I click on Save

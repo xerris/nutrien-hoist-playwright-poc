@@ -47,47 +47,26 @@ Given(
   },
 );
 
-// Given(
-//   'I navigate to an action item reported on {string}',
-//   async function (this: IHoistWorld, reportedAt: string) {
-//     const page = this.page!;
-//     console.log('Searching for:', reportedAt);
-//     const gridCell = page.getByRole('gridcell', { name: reportedAt, exact: true });
-//     await gridCell.waitFor({ state: 'visible' });
-//     // Click the cell
-//     await gridCell.click();
-//     const text = page.getByText('Action item details', { exact: true });
-//     await expect(text).toBeVisible({ timeout: 60000 });
-//   },
-// );
 Given(
   'I navigate to an action item reported on {string}',
   async function (this: IHoistWorld, reportedAt: string) {
-    const systemTimezone = process.env.TZ ?? 'UTC';
-    console.log('System Timezone:', systemTimezone);
-    const originalDate = new Date(reportedAt);
-
-    const options: Intl.DateTimeFormatOptions = {
-      timeZone: systemTimezone,
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric',
-      hour: 'numeric',
-      minute: '2-digit',
-      hour12: true,
-    };
-
-    const localizedDateString = originalDate.toLocaleString('en-US', options);
-    console.log('Localized Date:', localizedDateString);
-
-    const gridCell = this.page!.getByRole('gridcell', { name: localizedDateString, exact: true });
+    const page = this.page!;
+    console.log('Searching for:', reportedAt);
+    const gridCell = page.getByRole('gridcell', { name: reportedAt, exact: true });
     await gridCell.waitFor({ state: 'visible' });
+    // Click the cell
     await gridCell.click();
-
-    const text = this.page!.getByText('Action item details', { exact: true });
+    const text = page.getByText('Action item details', { exact: true });
     await expect(text).toBeVisible({ timeout: 60000 });
   },
 );
+
+Given('I navigate to the first action item', async function (this: IHoistWorld) {
+  const page = this.page!;
+  await page.locator('.ag-row-no-focus > div:nth-child(2)').first().click();
+  const text = page.getByText('Action item details', { exact: true });
+  await expect(text).toBeVisible({ timeout: 60000 });
+});
 
 Given('I navigate to the Action Items page', async function (this: IHoistWorld) {
   const page = this.page!;
