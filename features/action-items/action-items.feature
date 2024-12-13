@@ -10,6 +10,6 @@ Feature: Action Items
     Scenario: Updating an action item
     Given I navigate to an action item reported on 'Nov 12, 2024, 11:39 am'
     And I edit the action item details with the following information
-      | Action item | Cleaning Required |
-      When I click on Save
-    Then I should be able to see the updated Action item with 'Cleaning Required'
+      | Action item | Downtime Required |
+    When I click on Save
+    Then I should be able to see the updated Action item with 'Downtime Required'

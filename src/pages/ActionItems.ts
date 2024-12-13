@@ -19,8 +19,8 @@ export class ActionItems {
 
   private actionItemMetadata: ActionItemMetadata[] = [
     // locator not needed for select
-    { name: 'Action item', locator: 'polyline', type: 'select' },
-    { name: 'Rope', locator: 'polyline', type: 'select' },
+    { name: 'Action item', locator: 'wewrer', type: 'select' },
+    { name: 'Rope', locator: '345345', type: 'select' },
     { name: 'Elevation', locator: 'input[name="elevation"]', type: 'input' },
   ];
 
@@ -74,11 +74,11 @@ export class ActionItems {
   }
 
   public async editActionItem(): Promise<void> {
-  const button = this.page.getByRole('button').nth(1);
-  await button.waitFor({ state: 'visible' });
-  // Click the button
-  await button.click(); 
-  const text = this.page.getByText('Edit action item details', { exact: true });
-  await expect(text).toBeVisible({ timeout: 60000 });
-}
+    const button = this.page.getByRole('button').nth(1);
+    await button.waitFor({ state: 'visible' });
+    // Click the button
+    await button.click();
+    const text = this.page.getByText('Edit action item details', { exact: true });
+    await expect(text).toBeVisible({ timeout: 60000 });
+  }
 }
