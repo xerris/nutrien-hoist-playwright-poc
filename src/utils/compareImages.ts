@@ -1,13 +1,14 @@
 // Added by https://github.com/ortsevlised
 
-import { config } from '../support/config';
-import { IHoistWorld } from '../support/hoist-world';
-import { ensureFile, pathExists } from 'fs-extra';
-import pixelmatch from 'pixelmatch';
-import { PNG } from 'pngjs';
 import * as fs from 'fs';
 import { writeFileSync } from 'fs';
+import { ensureFile, pathExists } from 'fs-extra';
 import { join } from 'path';
+import pixelmatch from 'pixelmatch';
+import { PNG } from 'pngjs';
+
+import { config } from '../support/config';
+import { ILogbookWorld } from '../support/logbook-world';
 
 /**
  * Compares a screenshot to a base image,
@@ -23,7 +24,7 @@ interface ImagePathOptions {
 }
 
 export function getImagePath(
-  customWorld: IHoistWorld,
+  customWorld: ILogbookWorld,
   name: string,
   options?: ImagePathOptions,
 ): string {
@@ -36,7 +37,7 @@ export function getImagePath(
   );
 }
 export async function compareToBaseImage(
-  customWorld: IHoistWorld,
+  customWorld: ILogbookWorld,
   name: string,
   screenshot: Buffer,
   threshold?: { threshold: number },

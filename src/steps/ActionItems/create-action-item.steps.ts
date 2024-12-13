@@ -1,8 +1,9 @@
 import { DataTable, Given, Then, When } from '@cucumber/cucumber';
-
-import { ILogbookWorld } from '../../../support/logbook-world';
-import { CreateActionItem } from '../../../pages/Logbook/CreateNewActionItem';
 import { expect } from '@playwright/test';
+
+import { SCREENSHOT_DIR } from '../../../constants';
+import { CreateActionItem } from '../../pages/CreateNewActionItem';
+import { ILogbookWorld } from '../../support/logbook-world';
 
 Given('I create a new Action Item', async function (this: ILogbookWorld) {
   const page = this.page!;
@@ -23,7 +24,7 @@ Given(
       await actionItem.setFieldValue(fieldName, value);
     }
     await executeWithDelay();
-  }
+  },
 );
 
 // Define the sleep function
@@ -42,11 +43,11 @@ When('I click on Save in Action Item form', async function (this: ILogbookWorld)
   const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
   const testName = this.testName ?? 'unknown';
 
-  const screenshotPath = `screenshots/features/${testName}/before-save-${timestamp}.png`;
+  const screenshotPath = `${SCREENSHOT_DIR}/features/${testName}/before-save-${timestamp}.png`;
 
   await this.page?.screenshot({
     path: screenshotPath,
-    fullPage: true
+    fullPage: true,
   });
 
   await this.page?.getByRole('button', { name: 'Save' }).click();
@@ -67,10 +68,10 @@ Then('I should be able to see the new Action Item', async function (this: ILogbo
     await expect(actionItemElement).toBeVisible();
     const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
     const testName = this.testName ?? 'unknown';
-    const screenshotPath = `screenshots/features/${testName}/after-save-${timestamp}.png`;
+    const screenshotPath = `${SCREENSHOT_DIR}/features/${testName}/after-save-${timestamp}.png`;
     await this.page?.screenshot({
       path: screenshotPath,
-      fullPage: true
+      fullPage: true,
     });
   }
 });

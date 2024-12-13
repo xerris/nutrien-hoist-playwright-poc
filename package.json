@@ -18,13 +18,13 @@
     "snippets": "npm run cucumber  features/**/*.feature --dry-run --format snippets",
     "steps-usage": "tsx $(bin)/cucumber-js features/**/*.feature --dry-run",
     "all": "npm run cucumber features/**/*.feature",
-    "test": "npm run cucumber ",
+    "test": "npm run cucumber",
     "test:parallel": "npm run cucumber  --parallel=2",
     "docker": "docker run --rm --network host -v $(pwd):/work/ -w /work/ -it mcr.microsoft.com/playwright:latest /bin/bash",
     "allure": "allure serve reports/allure-results"
   },
   "engines": {
-    "node": ">=14"
+    "node": "20 || >=22"
   },
   "repository": {
     "type": "git",
@@ -51,14 +51,18 @@
     "@typescript-eslint/parser": "8.16.0",
     "allure-cucumberjs": "3.0.6",
     "cucumber-html-reporter": "7.2.0",
+    "dotenv": "^16.4.7",
     "eslint": "9.16.0",
     "eslint-config-prettier": "9.1.0",
     "eslint-plugin-playwright": "2.1.0",
     "eslint-plugin-prettier": "5.2.1",
+    "eslint-plugin-simple-import-sort": "^12.1.1",
     "fs-extra": "11.2.0",
     "multiple-cucumber-html-reporter": "3.8.0",
     "open": "10.1.0",
+    "otpauth": "^9.3.5",
     "pixelmatch": "6.0.0",
+    "playwright-m365-helpers": "^0.0.3",
     "pngjs": "7.0.0",
     "prettier": "3.4.1",
     "rimraf": "6.0.1",

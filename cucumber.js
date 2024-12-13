@@ -1,3 +1,9 @@
+import dotenv from 'dotenv';
+
+if (!process.env.CI) {
+  dotenv.config({ path: '.env' });
+}
+
 const getWorldParams = () => {
   const params = {
     foo: 'bar'
@@ -6,6 +12,7 @@ const getWorldParams = () => {
   return params;
 };
 
+console.log('process.env.CI: ', process.env.CI);
 const config = {
   import: ['src/**/*.ts'],
   format: [
@@ -16,7 +23,8 @@ const config = {
     'progress-bar'
   ],
   formatOptions: { snippetInterface: 'async-await' },
-  worldParameters: getWorldParams()
+  worldParameters: getWorldParams(),
+  headless: process.env.CI ? true : false,
 };
 
 if (process.env.USE_ALLURE) {

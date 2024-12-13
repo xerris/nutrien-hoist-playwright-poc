@@ -9,6 +9,7 @@ yarn-debug.log*
 yarn-error.log*
 test-results.html
 test-results.html.json
+test-results/
 
 # Runtime data
 pids
@@ -73,3 +74,4 @@ build
 dist/
 docs/
 /screenshots/
+.auth/

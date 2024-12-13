@@ -1,5 +1,5 @@
-import { LaunchOptions } from '@playwright/test';
 import { setDefaultTimeout } from '@cucumber/cucumber';
+import { LaunchOptions } from '@playwright/test';
 
 setDefaultTimeout(180 * 1000); // 3 minutes timeout
 const browserOptions: LaunchOptions = {
@@ -9,6 +9,7 @@ const browserOptions: LaunchOptions = {
     'media.navigator.streams.fake': true,
     'media.navigator.permission.disabled': true,
   },
+  headless: process.env.CI ? true : false,
 };
 
 export const config = {

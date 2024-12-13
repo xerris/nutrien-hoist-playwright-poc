@@ -1,10 +1,9 @@
 import { Given, Then, When } from '@cucumber/cucumber';
+import { Page } from '@playwright/test';
 
-import { Browser, chromium, Page } from '@playwright/test';
-import { LoginPage } from '../../pages/Logbook/LoginPage';
-import { ILogbookWorld } from '../../support/logbook-world';
+import { LoginPage } from '../pages/LoginPage';
+import { ILogbookWorld } from '../support/logbook-world';
 
-let browser: Browser;
 let page: Page;
 
 Given('I login as a Minesight user in logbook', async function (this: ILogbookWorld) {
@@ -15,10 +14,8 @@ Given('I login as a Minesight user in logbook', async function (this: ILogbookWo
 Given(
   'Given I am on the login page of Logbook in the DEV env',
   async function (this: ILogbookWorld) {
-    browser = await chromium.launch({ headless: false });
-    page = await browser.newPage();
-    await page.goto('https://dev-hoist.minesight.nutrien.com');
-  }
+    await this.page!.goto('https://dev-hoist.minesight.nutrien.com');
+  },
 );
 
 When('I enter the email in the email field', async function (this: ILogbookWorld) {
@@ -47,10 +44,7 @@ Then('I should be redirected to the Home screen', async function (this: ILogbook
 });
 
 Given('I am logged in as a Minesight test user', async function (this: ILogbookWorld) {
-  const browser: Browser = await chromium.launch({ headless: false });
-  const page: Page = await browser.newPage();
-
-  const loginPage = new LoginPage(page);
+  const loginPage = new LoginPage(this.page!);
 
   await loginPage.navigate(this.baseUrl);
   await loginPage.enterUsername(this.envConfig.credentials?.username ?? '');
@@ -58,9 +52,4 @@ Given('I am logged in as a Minesight test user', async function (this: ILogbookW
   await loginPage.submit();
   await loginPage.waitForSuccessfulLogin();
   await loginPage.selectSite();
-
-  this.browser = browser;
-  this.context = await browser.newContext();
-  this.page = page;
-  this.cookies = await this.context.cookies();
 });

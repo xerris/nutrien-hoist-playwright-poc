@@ -1,18 +1,20 @@
-import { IHoistWorld } from './hoist-world';
-import { config } from './config';
-import { Before, After, BeforeAll, AfterAll, Status, setDefaultTimeout } from '@cucumber/cucumber';
+import { After, AfterAll, Before, BeforeAll, setDefaultTimeout, Status } from '@cucumber/cucumber';
 import {
+  Browser,
   chromium,
   ChromiumBrowser,
+  ConsoleMessage,
   firefox,
   FirefoxBrowser,
+  request,
   webkit,
   WebKitBrowser,
-  ConsoleMessage,
-  request,
-  Browser,
 } from '@playwright/test';
 import { ensureDir } from 'fs-extra';
+
+import { SCREENSHOT_DIR } from '../../constants';
+import { config } from './config';
+import { ILogbookWorld } from './logbook-world';
 
 let browser: ChromiumBrowser | FirefoxBrowser | WebKitBrowser | Browser;
 const tracesDir = 'traces';
@@ -51,23 +53,34 @@ Before({ tags: '@ignore' }, function () {
   return 'skipped';
 });
 
-Before({ tags: '@debug' }, function (this: IHoistWorld) {
+Before({ tags: '@debug' }, function (this: ILogbookWorld) {
   this.debug = true;
 });
 
-Before(async function (this: IHoistWorld, { pickle }) {
+Before(async function (this: ILogbookWorld, { pickle }) {
   this.startTime = new Date();
   this.testName = pickle.name.replace(/\W/g, '-');
   // customize the [browser context](https://playwright.dev/docs/next/api/class-browser#browsernewcontextoptions)
   this.context = await browser.newContext({
     acceptDownloads: true,
-    recordVideo: process.env.PWVIDEO ? { dir: 'screenshots' } : undefined,
+    recordVideo: process.env.PWVIDEO ? { dir: SCREENSHOT_DIR } : undefined,
     viewport: { width: 1200, height: 800 },
+    // storageState: USER_FILE,
   });
   this.server = await request.newContext({
     // All requests we send go to this API endpoint.
     baseURL: config.BASE_API_URL,
   });
+
+  // Disable session storage for now
+  // const sessionStorage = JSON.parse(fs.readFileSync(SESSION_FILE, 'utf-8'));
+  // await this.context.addInitScript((storage: Record<string, unknown> | ArrayLike<unknown>) => {
+  //   // TODO: This should come from a config file
+  //   if (window.location.hostname === 'dev-hoist.minesight.nutrien.com') {
+  //     for (const [key, value] of Object.entries(storage))
+  //       window.sessionStorage.setItem(key, value as string);
+  //   }
+  // }, sessionStorage);
 
   await this.context.tracing.start({ screenshots: true, snapshots: true });
   this.page = await this.context.newPage();
@@ -79,7 +92,7 @@ Before(async function (this: IHoistWorld, { pickle }) {
   this.feature = pickle;
 });
 
-After(async function (this: IHoistWorld, { result }) {
+After(async function (this: ILogbookWorld, { result }) {
   if (result) {
     this.attach(`Status: ${result?.status}. Duration:${result.duration?.seconds}s`);
 

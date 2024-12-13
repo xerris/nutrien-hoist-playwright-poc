@@ -1,5 +1,6 @@
 import { Page } from '@playwright/test';
-import { FormHelper } from '../../support/FormHelper';
+
+import { FormHelper } from '../support/FormHelper';
 
 interface ActionItemMetadata {
   name: string;
@@ -21,14 +22,14 @@ export class CreateActionItem {
     { name: 'Action item', locator: '#mui-29914', type: 'select' },
     { name: 'Elevation (optional)', locator: 'input[name="elevation"]', type: 'input' },
     { name: 'Comment', locator: 'textarea[name="comment"]', type: 'input' },
-    { name: 'Reported by', locator: '#mui-20023', type: 'select' }
+    { name: 'Reported by', locator: '#mui-20023', type: 'select' },
   ];
 
   private settersMap: Record<string, (value: string) => Promise<void>> = {
     'Action item': this.setActionItem.bind(this),
     'Elevation (optional)': this.setElevation.bind(this),
     'Comment': this.setComment.bind(this),
-    'Reported by': this.setReportedBy.bind(this)
+    'Reported by': this.setReportedBy.bind(this),
   };
 
   // Setter methods for each field
@@ -69,7 +70,7 @@ export class CreateActionItem {
       type: fieldMetadata.type,
       locator: fieldMetadata.locator,
       name: fieldName,
-      value
+      value,
     });
   }
 
