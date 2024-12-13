@@ -46,3 +46,29 @@ Given(
     console.log('Rope record successfully created.');
   },
 );
+
+Given(
+  'I navigate to an action item reported on {string}',
+  async function (this: IHoistWorld, reportedAt: string) {
+    const page = this.page!;
+    console.log('Searching for:', reportedAt);
+    await page
+      .getByRole('gridcell', { name: reportedAt, exact: true })
+      .waitFor({ state: 'visible' });
+    const text = page.getByText('Action item details', { exact: true });
+    await expect(text).toBeVisible();
+  },
+);
+
+Given('I navigate to the Action Items page', async function (this: IHoistWorld) {
+  const page = this.page!;
+  await page.goto('https://dev.minesight.nutrien.com/hoist/actionItems');
+  console.log('Current url:', page.url());
+  expect(page.url()).toBe('https://dev.minesight.nutrien.com/hoist/actionItems');
+  await page.getByText('Applied:').click({
+    timeout: 60000,
+    trial: true,
+  });
+
+  await Promise.resolve();
+});
