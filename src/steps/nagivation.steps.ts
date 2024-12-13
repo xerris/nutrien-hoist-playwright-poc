@@ -47,16 +47,44 @@ Given(
   },
 );
 
+// Given(
+//   'I navigate to an action item reported on {string}',
+//   async function (this: IHoistWorld, reportedAt: string) {
+//     const page = this.page!;
+//     console.log('Searching for:', reportedAt);
+//     const gridCell = page.getByRole('gridcell', { name: reportedAt, exact: true });
+//     await gridCell.waitFor({ state: 'visible' });
+//     // Click the cell
+//     await gridCell.click();
+//     const text = page.getByText('Action item details', { exact: true });
+//     await expect(text).toBeVisible({ timeout: 60000 });
+//   },
+// );
 Given(
   'I navigate to an action item reported on {string}',
   async function (this: IHoistWorld, reportedAt: string) {
-    const page = this.page!;
-    console.log('Searching for:', reportedAt);
-    const gridCell = page.getByRole('gridcell', { name: reportedAt, exact: true });
+    const systemTimezone = process.env.TZ ?? 'UTC';
+    console.log('System Timezone:', systemTimezone);
+    const originalDate = new Date(reportedAt);
+
+    const options: Intl.DateTimeFormatOptions = {
+      timeZone: systemTimezone,
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+      hour: 'numeric',
+      minute: '2-digit',
+      hour12: true,
+    };
+
+    const localizedDateString = originalDate.toLocaleString('en-US', options);
+    console.log('Localized Date:', localizedDateString);
+
+    const gridCell = this.page!.getByRole('gridcell', { name: localizedDateString, exact: true });
     await gridCell.waitFor({ state: 'visible' });
-    // Click the cell
     await gridCell.click();
-    const text = page.getByText('Action item details', { exact: true });
+
+    const text = this.page!.getByText('Action item details', { exact: true });
     await expect(text).toBeVisible({ timeout: 60000 });
   },
 );
