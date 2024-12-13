@@ -16,12 +16,12 @@ export class FormHelper {
     {
       type,
       name,
-      value
+      value,
     }: {
       type: string;
       name: string;
       value: string;
-    }
+    },
   ): Promise<void> {
     switch (type) {
       case 'select':
@@ -62,13 +62,13 @@ export class FormHelper {
       locator,
       type,
       value,
-      name
+      name,
     }: {
-      locator: string;
+      locator?: string;
       type: string;
       value: string;
       name: string;
-    }
+    },
   ): Promise<void> {
     switch (type) {
       case 'select':
@@ -76,7 +76,11 @@ export class FormHelper {
         break;
       case 'input':
       default:
-        await this.fillInputByLocator(page, locator, value);
+        if (locator) {
+          await this.fillInputByLocator(page, locator, value);
+        } else {
+          throw new Error('Locator is required for input type fields.');
+        }
     }
   }
 

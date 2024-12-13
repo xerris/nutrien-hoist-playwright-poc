@@ -4,7 +4,7 @@ import { FormHelper } from '../support/FormHelper';
 
 interface ActionItemMetadata {
   name: string;
-  locator: string;
+  locator?: string;
   type: string;
 }
 
@@ -19,8 +19,8 @@ export class ActionItems {
 
   private actionItemMetadata: ActionItemMetadata[] = [
     // locator not needed for select
-    { name: 'Action item', locator: 'wewrer', type: 'select' },
-    { name: 'Rope', locator: '345345', type: 'select' },
+    { name: 'Action item', type: 'select' },
+    { name: 'Rope', type: 'select' },
     { name: 'Elevation', locator: 'input[name="elevation"]', type: 'input' },
   ];
 
@@ -38,7 +38,17 @@ export class ActionItems {
   public async setElevation(value: string): Promise<void> {
     const elevationLocator = this.page.getByLabel('Elevation').getByRole('textbox');
     await elevationLocator.click();
-    await elevationLocator.fill(value);
+
+    const prefilledValue = await elevationLocator.inputValue();
+
+    // if previous value is same as given value then update it with a random 2 digit int to enable the form
+    if (prefilledValue === value) {
+      console.log('generating a random two digit number for Elevation');
+      const randomInt = Math.floor(10 + Math.random() * 90);
+      await elevationLocator.fill(randomInt.toString());
+    } else {
+      await elevationLocator.fill(value);
+    }
   }
 
   public async setRopeNumber(value: string): Promise<void> {
