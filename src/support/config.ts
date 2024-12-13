@@ -9,6 +9,7 @@ const browserOptions: LaunchOptions = {
     'media.navigator.streams.fake': true,
     'media.navigator.permission.disabled': true,
   },
+  headless: process.env.CI ? true : false,
 };
 
 export const config = {
