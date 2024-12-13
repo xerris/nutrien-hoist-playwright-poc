@@ -75,7 +75,7 @@ setup('authenticate', async ({ page }) => {
   } catch (error) {
     console.log('Error:', error);
   }
-  await page.waitForURL('**/dev.minesight.nutrien.com/hoist/actionitems');
+  await page.waitForURL('**/dev.minesight.nutrien.com/app-dashboard');
 
   await page.context().storageState({ path: AUTH_FILE });
 
