@@ -1,11 +1,6 @@
 import { expect, Page } from '@playwright/test';
 
-import { FormHelper } from '../support/FormHelper';
-
-interface RopeMetadata {
-  name: string;
-  type: string;
-}
+import { FormFieldMetadata, FormHelper } from '../support/FormHelper';
 
 export class CreateRopeRecord {
   private readonly page: Page;
@@ -16,7 +11,7 @@ export class CreateRopeRecord {
     this.formHelper = new FormHelper();
   }
 
-  private ropeMetadata: RopeMetadata[] = [
+  private ropeMetadata: FormFieldMetadata[] = [
     { name: 'Rope Type', type: 'select' },
     { name: 'Hoist #', type: 'select' },
     { name: 'Serial number', type: 'input' },
@@ -30,13 +25,13 @@ export class CreateRopeRecord {
     { name: 'Manufacture date', type: 'date' },
   ];
 
-  private breakingLoadMetadata: RopeMetadata[] = [
+  private breakingLoadMetadata: FormFieldMetadata[] = [
     { name: 'Breaking load', type: 'input' },
     { name: 'Test number', type: 'input' },
     { name: 'Test date', type: 'date' },
   ];
 
-  private constructionInfoMetaData: RopeMetadata[] = [
+  private constructionInfoMetaData: FormFieldMetadata[] = [
     {
       name: 'Class of core used in the rope',
       type: 'input',
@@ -198,7 +193,7 @@ export class CreateRopeRecord {
   }
 
   // Method to retrieve metadata by field name
-  private getFieldMetadata(fieldName: string): RopeMetadata | undefined {
+  private getFieldMetadata(fieldName: string): FormFieldMetadata | undefined {
     const combinedRopeMetadata = [
       ...this.ropeMetadata,
       ...this.breakingLoadMetadata,

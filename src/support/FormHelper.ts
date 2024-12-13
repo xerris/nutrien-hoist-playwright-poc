@@ -1,5 +1,10 @@
 import { Page } from '@playwright/test';
 
+export interface FormFieldMetadata {
+  name: string;
+  locator?: string;
+  type: string;
+}
 export class FormHelper {
   // Method to escape special characters for CSS compatibility
   public escapeString(str: string): string {

@@ -1,12 +1,6 @@
 import { expect, Page } from '@playwright/test';
 
-import { FormHelper } from '../support/FormHelper';
-
-interface ActionItemMetadata {
-  name: string;
-  locator?: string;
-  type: string;
-}
+import { FormFieldMetadata, FormHelper } from '../support/FormHelper';
 
 export class ActionItems {
   private readonly page: Page;
@@ -17,7 +11,7 @@ export class ActionItems {
     this.formHelper = new FormHelper();
   }
 
-  private actionItemMetadata: ActionItemMetadata[] = [
+  private actionItemMetadata: FormFieldMetadata[] = [
     // locator not needed for select
     { name: 'Action item', type: 'select' },
     { name: 'Rope', type: 'select' },
@@ -81,7 +75,7 @@ export class ActionItems {
   }
 
   // Method to retrieve metadata by field name
-  private getFieldMetadata(fieldName: string): ActionItemMetadata | undefined {
+  private getFieldMetadata(fieldName: string): FormFieldMetadata | undefined {
     return this.actionItemMetadata.find(field => field.name === fieldName);
   }
 
