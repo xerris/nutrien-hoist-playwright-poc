@@ -10,6 +10,11 @@ import { AUTH_FILE, SESSION_FILE } from '../constants';
 
 setup('authenticate', async ({ page }) => {
   // 1. Open the login page
+
+  //uncomment below lines if needs to open browser
+  // const browser = await chromium.launch({ headless: false });
+  // page = await browser.newPage();
+
   await page.goto(process.env.HOIST_PAGE_URL ?? 'https://dev.minesight.nutrien.com');
 
   await page.getByRole('button', { name: 'Login' }).click();
@@ -31,11 +36,12 @@ setup('authenticate', async ({ page }) => {
   await page.locator('input[type=submit]').click();
 
   // ---- temp workaround ----
-  await page.getByRole('link', { name: 'I can\'t use my Outlook mobile' }).click();
-  await page.getByRole('button', { name: 'Use a verification code' }).click();
-  await page.getByPlaceholder('Code').click();
-  await page.getByPlaceholder('Code').fill(process.env.HOIST_OTP_SECRET);
-  await page.getByRole('button', { name: 'Verify' }).click();
+  // uncomment this based on actual text shown on 2FA screen on browser
+  // await page.getByRole('link', { name: 'I can\'t use my Microsoft Authenticator app right now' }).click();
+  // await page.getByRole('button', { name: 'Use a verification code' }).click();
+  // await page.getByPlaceholder('Code').click();
+  // await page.getByPlaceholder('Code').fill(process.env.HOIST_OTP_SECRET);
+  // await page.getByRole('button', { name: 'Verify' }).click();
   // --------------------------
 
   // 6. Check if the account has the Microsoft Authenticator app configured

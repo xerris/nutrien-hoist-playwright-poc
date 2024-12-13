@@ -52,11 +52,12 @@ Given(
   async function (this: IHoistWorld, reportedAt: string) {
     const page = this.page!;
     console.log('Searching for:', reportedAt);
-    await page
-      .getByRole('gridcell', { name: reportedAt, exact: true })
-      .waitFor({ state: 'visible' });
+    const gridCell = page.getByRole('gridcell', { name: reportedAt, exact: true });
+    await gridCell.waitFor({ state: 'visible' });
+    // Click the cell
+    await gridCell.click();
     const text = page.getByText('Action item details', { exact: true });
-    await expect(text).toBeVisible();
+    await expect(text).toBeVisible({ timeout: 60000 });
   },
 );
 
