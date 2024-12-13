@@ -18,8 +18,8 @@ export const environments: Record<string, EnvironmentConfig> = {
   staging: {
     baseUrl: 'https://stage-hoist.minesight.nutrien.com/',
     credentials: {
-      username: 'stage-user',
-      password: 'stage-password',
+      username: process.env.LOGBOOK_USERNAME ?? 'stage-user',
+      password: process.env.LOGBOOK_PASSWORD ?? 'stage-password',
     },
   },
   // production: {
