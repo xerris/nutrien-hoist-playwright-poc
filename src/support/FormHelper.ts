@@ -22,10 +22,12 @@ export class FormHelper {
       type,
       name,
       value,
+      locator,
     }: {
       type: string;
       name: string;
       value: string;
+      locator?: string;
     },
   ): Promise<void> {
     switch (type) {
@@ -39,15 +41,33 @@ export class FormHelper {
 
       case 'input':
       default:
-        await this.fillInputField(page, name, value);
+        await this.fillInputField(page, name, value, locator);
     }
   }
 
-  // Method to fill select fields
+  // Method to fill input fields
+  private async fillInputField(
+    page: Page,
+    name: string,
+    value: string,
+    locator?: string,
+  ): Promise<void> {
+    if (locator) {
+      await page.locator(locator).fill(value.toString());
+    } else {
+      await page.getByRole('textbox', { name }).fill(value.toString());
+    }
+  }
+
   private async fillSelectField(page: Page, name: string, value: string): Promise<void> {
     const locator = `[id="${this.escapeString(name)}"]`;
-    await page.locator(locator).click();
-    await page.getByRole('option', { name: value }).click();
+
+    try {
+      await page.locator(locator).click({ timeout: 3000 });
+    } catch {
+      await page.getByText(name, { exact: true }).click({ timeout: 3000 });
+    }
+    await page.getByRole('option', { name: value }).click({ timeout: 3000 });
   }
 
   // Method to fill date fields
@@ -56,46 +76,31 @@ export class FormHelper {
     await page.getByRole('button', { name: 'OK', exact: true }).click();
   }
 
-  // Method to fill input fields
-  private async fillInputField(page: Page, name: string, value: string): Promise<void> {
-    await page.getByRole('textbox', { name }).fill(value.toString());
+  public getFieldMetadata(
+    fieldName: string,
+    metadata: FormFieldMetadata[] = [],
+  ): FormFieldMetadata | undefined {
+    return metadata.find(field => field.name === fieldName);
   }
 
-  public async fillFormFieldByLocator(
+  public async setField(
     page: Page,
-    {
-      locator,
-      type,
-      value,
-      name,
-    }: {
-      locator?: string;
-      type: string;
-      value: string;
-      name: string;
-    },
+    fieldName: string,
+    value: string,
+    metadata: FormFieldMetadata[] = [],
   ): Promise<void> {
-    switch (type) {
-      case 'select':
-        await this.fillSelectByLocator(page, name, value);
-        break;
-      case 'input':
-      default:
-        if (locator) {
-          await this.fillInputByLocator(page, locator, value);
-        } else {
-          throw new Error('Locator is required for input type fields.');
-        }
-    }
-  }
+    const fieldMetadata = this.getFieldMetadata(fieldName, metadata);
+    if (!fieldMetadata) throw new Error(`${fieldName}: not found`);
 
-  private async fillSelectByLocator(page: Page, name: string, value: string): Promise<void> {
-    // enabling the select by clicking the label text for the field
-    await page.getByText(name, { exact: true }).click();
-    await page.getByRole('option', { name: value }).click();
-  }
+    console.log(`filling: ${fieldName} with value: ${value}`);
 
-  private async fillInputByLocator(page: Page, locator: string, value: string): Promise<void> {
-    await page.locator(locator).fill(value);
+    const fillOptions = {
+      type: fieldMetadata.type,
+      name: fieldName,
+      value,
+      locator: fieldMetadata.locator,
+    };
+
+    await this.fillFormField(page, fillOptions);
   }
 }

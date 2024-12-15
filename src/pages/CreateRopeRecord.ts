@@ -12,7 +12,7 @@ export class CreateRopeRecord {
   }
 
   private ropeMetadata: FormFieldMetadata[] = [
-    { name: 'Rope Type', type: 'select' },
+    { name: 'Rope type', type: 'select' },
     { name: 'Hoist #', type: 'select' },
     { name: 'Serial number', type: 'input' },
     { name: 'Diameter of rope (optional)', type: 'input' },
@@ -55,7 +55,7 @@ export class CreateRopeRecord {
   ];
 
   private settersMap: Record<string, (value: string) => Promise<void>> = {
-    'Rope Type': this.setRopeType.bind(this),
+    'Rope type': this.setRopeType.bind(this),
     'Hoist #': this.setHoistNumber.bind(this),
     'Serial number': this.setSerialNumber.bind(this),
     'Diameter of rope (optional)': this.setDiameter.bind(this),
@@ -92,7 +92,7 @@ export class CreateRopeRecord {
 
   // Setter methods for each field
   public async setRopeType(value: string): Promise<void> {
-    await this.setField('Rope Type', value);
+    await this.setField('Rope type', value);
   }
 
   public async setHoistNumber(value: string): Promise<void> {
@@ -181,25 +181,13 @@ export class CreateRopeRecord {
 
   // Helper function to find metadata by field name and set the value
   private async setField(fieldName: string, value: string): Promise<void> {
-    const fieldMetadata = this.getFieldMetadata(fieldName);
-    if (!fieldMetadata) throw new Error(`${fieldName}: not found`);
-
-    console.log(`filling: ${fieldName} with value: ${value}`);
-    await this.formHelper.fillFormField(this.page, {
-      type: fieldMetadata.type,
-      name: fieldMetadata.name,
-      value: value,
-    });
-  }
-
-  // Method to retrieve metadata by field name
-  private getFieldMetadata(fieldName: string): FormFieldMetadata | undefined {
     const combinedRopeMetadata = [
       ...this.ropeMetadata,
       ...this.breakingLoadMetadata,
       ...this.constructionInfoMetaData,
     ];
-    return combinedRopeMetadata.find(field => field.name === fieldName);
+
+    await this.formHelper.setField(this.page, fieldName, value, combinedRopeMetadata);
   }
 
   async openAddRecordsModal() {

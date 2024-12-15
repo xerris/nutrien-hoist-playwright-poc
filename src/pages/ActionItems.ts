@@ -12,7 +12,6 @@ export class ActionItems {
   }
 
   private actionItemMetadata: FormFieldMetadata[] = [
-    // locator not needed for select
     { name: 'Action item', type: 'select' },
     { name: 'Rope', type: 'select' },
     { name: 'Elevation', locator: 'input[name="elevation"]', type: 'input' },
@@ -62,27 +61,12 @@ export class ActionItems {
 
   // Helper function to find metadata by field name and set the value
   private async setField(fieldName: string, value: string): Promise<void> {
-    const fieldMetadata = this.getFieldMetadata(fieldName);
-    if (!fieldMetadata) throw new Error(`${fieldName}: not found`);
-
-    console.log(`filling: ${fieldName} with value: ${value}`);
-    await this.formHelper.fillFormFieldByLocator(this.page, {
-      type: fieldMetadata.type,
-      locator: fieldMetadata.locator,
-      name: fieldName,
-      value,
-    });
-  }
-
-  // Method to retrieve metadata by field name
-  private getFieldMetadata(fieldName: string): FormFieldMetadata | undefined {
-    return this.actionItemMetadata.find(field => field.name === fieldName);
+    await this.formHelper.setField(this.page, fieldName, value, this.actionItemMetadata);
   }
 
   public async editActionItem(): Promise<void> {
     const button = this.page.getByRole('button').nth(1);
     await button.waitFor({ state: 'visible' });
-    // Click the button
     await button.click();
     const text = this.page.getByText('Edit action item details', { exact: true });
     await expect(text).toBeVisible({ timeout: 60000 });

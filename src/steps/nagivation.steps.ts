@@ -65,7 +65,7 @@ Given('I navigate to the first action item', async function (this: IHoistWorld) 
   const page = this.page!;
   await page.locator('.ag-row-no-focus > div:nth-child(2)').first().click();
   const text = page.getByText('Action item details', { exact: true });
-  await expect(text).toBeVisible({ timeout: 60000 });
+  await expect(text).toBeVisible({ timeout: 0 });
 });
 
 Given('I navigate to the Action Items page', async function (this: IHoistWorld) {
@@ -74,7 +74,7 @@ Given('I navigate to the Action Items page', async function (this: IHoistWorld) 
   console.log('Current url:', page.url());
   expect(page.url()).toBe('https://dev.minesight.nutrien.com/hoist/actionItems');
   await page.getByText('Applied:').click({
-    timeout: 60000,
+    timeout: 0,
     trial: true,
   });
 

@@ -19,8 +19,8 @@ Given(
     const ropeRecord = new CreateRopeRecord(page); // Create an instance of CreateRopeRecord
 
     for (const [fieldName, value] of Object.entries(ropeInfo)) {
-      let cleanValue = value.replace(/"/g, '').trim().toLowerCase(); // Clean up value
-
+      // let cleanValue = value.replace(/"/g, '').trim().toLowerCase(); // Clean up value
+      let cleanValue = value;
       if (fieldName === 'Serial number') {
         cleanValue = uniqueGenerator.generateUniqueValue('CUCSNO', 6); // Generate unique serial number
         this.generatedSerialNumber = cleanValue;
@@ -44,12 +44,6 @@ async function executeWithDelay() {
   await sleep(5000); // Pause for 5 seconds
   console.log('Done');
 }
-
-When('I do this', function (this: IHoistWorld) {
-  if (this.generatedSerialNumber) {
-    console.log(`Generated serial number: ${HoistWorld.sharedState.generatedSerialNumber}`);
-  }
-});
 
 When('I click on Save', async function (this: IHoistWorld) {
   const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
