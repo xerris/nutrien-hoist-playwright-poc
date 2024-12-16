@@ -79,7 +79,7 @@ export class CreateRopeRecord {
     await this.openAddRecordsModal();
     await this.selectAddNewRope();
 
-    // Open the accordions to render the DOM
+    // Handling accordions
     const accordionTabs = ['Rope information', 'Construction info', 'Breaking load test info'];
     for (const tabName of accordionTabs) {
       await this.openAccordionTab(tabName);

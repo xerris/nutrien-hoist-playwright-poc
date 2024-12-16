@@ -28,7 +28,7 @@ When(
     const ropeRecord = new CreateRopeRecord(this.page!);
     const breakingLoadData = breakingLoadInfo.rowsHash();
     for (const [fieldName, value] of Object.entries(breakingLoadData)) {
-      await ropeRecord.setFieldValue(fieldName, value);
+      await ropeRecord.setFieldValue(fieldName, value, ropeRecord.ropeMetadata);
     }
     await this.page?.getByRole('button', { name: 'Save' }).click();
   },
