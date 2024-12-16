@@ -47,11 +47,11 @@ export class CreateRopeRecord {
   }
 
   // Set multiple field values for a specific metadata group
-  // public async setFieldValues(fields: Record<string, string>, metadata: FormFieldMetadata[]): Promise<void> {
-  //   for (const [fieldName, value] of Object.entries(fields)) {
-  //     await this.setFieldValue(fieldName, value, metadata);
-  //   }
-  // }
+  public async setFieldValues(fields: Record<string, string>, metadata: FormFieldMetadata[]): Promise<void> {
+    for (const [fieldName, value] of Object.entries(fields)) {
+      await this.setFieldValue(fieldName, value, metadata);
+    }
+  }
 
   // Open modals and tabs
   async openAddRecordsModal() {
@@ -87,7 +87,7 @@ export class CreateRopeRecord {
   }
 
   // Set field values for specific metadata groups
-  // public async setRopeInformation(fields: Record<string, string>) {
-  //   await this.setFieldValues(fields, this.ropeMetadata);
-  // }
+  public async setRopeInformation(fields: Record<string, string>) {
+    await this.setFieldValues(fields, this.ropeMetadata);
+  }
 }
