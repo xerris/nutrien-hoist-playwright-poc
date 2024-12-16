@@ -46,7 +46,7 @@ export class CreateRopeRecord {
     await this.formHelper.setField(this.page, fieldName, value, metadata);
   }
 
-  // Set multiple field values for a specific metadata group
+  // Set multiple field values for a specific metadata
   public async setFieldValues(fields: Record<string, string>, metadata: FormFieldMetadata[]): Promise<void> {
     for (const [fieldName, value] of Object.entries(fields)) {
       await this.setFieldValue(fieldName, value, metadata);
@@ -86,7 +86,7 @@ export class CreateRopeRecord {
     }
   }
 
-  // Set field values for specific metadata groups
+  // Set field values for specific metadata
   public async setRopeInformation(fields: Record<string, string>) {
     await this.setFieldValues(fields, this.ropeMetadata);
   }
