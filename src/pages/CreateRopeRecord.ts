@@ -11,7 +11,7 @@ export class CreateRopeRecord {
     this.formHelper = new FormHelper();
   }
 
-  // Metadata arrays for different sections
+  // Parent metadata object
   public ropeMetadata: FormFieldMetadata[] = [
     { name: 'Rope type', type: 'select' },
     { name: 'Hoist #', type: 'select' },
