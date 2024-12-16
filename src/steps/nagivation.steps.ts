@@ -54,7 +54,6 @@ Given(
     console.log('Searching for:', reportedAt);
     const gridCell = page.getByRole('gridcell', { name: reportedAt, exact: true });
     await gridCell.waitFor({ state: 'visible' });
-    // Click the cell
     await gridCell.click();
     const text = page.getByText('Action item details', { exact: true });
     await expect(text).toBeVisible({ timeout: 60000 });

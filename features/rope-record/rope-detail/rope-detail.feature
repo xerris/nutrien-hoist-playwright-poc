@@ -2,7 +2,6 @@
 Feature: Rope Detail
 
   Background: Login
-    # Given I am logged in as a site-admin
     Given I navigate to the Rope record page
 
   Scenario: User switches between tabs on the Rope Detail Page
@@ -27,6 +26,3 @@ Feature: Rope Detail
     And I provide the following information in the Breaking load form
       | Breaking load | "4" |
     Then I should be able to see the updated Breaking load data
-
-
-
