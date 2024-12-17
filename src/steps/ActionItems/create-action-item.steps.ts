@@ -21,7 +21,11 @@ Given(
     const actionItem = new CreateActionItem(page);
 
     for (const [fieldName, value] of Object.entries(actionEntities)) {
-      await actionItem.setFieldValue(fieldName, value);
+      if (!actionItem.actionItemMetadata) {
+        throw new Error(`No metadata found for field: ${fieldName}`);
+      }
+
+      await actionItem.setFieldValue(fieldName, value, actionItem.actionItemMetadata);
     }
     await executeWithDelay();
   },

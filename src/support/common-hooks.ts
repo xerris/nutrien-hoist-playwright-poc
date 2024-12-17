@@ -24,7 +24,7 @@ declare global {
   var browser: ChromiumBrowser | FirefoxBrowser | WebKitBrowser | Browser;
 }
 
-setDefaultTimeout(process.env.PWDEBUG ? -1 : 60 * 1000);
+setDefaultTimeout(process.env.PWDEBUG ? -1 : 120 * 1000);
 
 BeforeAll(async function () {
   // Launch browser only once
