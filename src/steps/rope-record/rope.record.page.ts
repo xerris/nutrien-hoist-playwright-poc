@@ -19,15 +19,23 @@ Given(
     const ropeRecord = new CreateRopeRecord(page); // Create an instance of CreateRopeRecord
 
     for (const [fieldName, value] of Object.entries(ropeInfo)) {
-      // let cleanValue = value.replace(/"/g, '').trim().toLowerCase(); // Clean up value
       let cleanValue = value;
+
+      // Handle specific fields like Serial number
       if (fieldName === 'Serial number') {
         cleanValue = uniqueGenerator.generateUniqueValue('CUCSNO', 6); // Generate unique serial number
         this.generatedSerialNumber = cleanValue;
         HoistWorld.sharedState.generatedSerialNumber = cleanValue;
       }
-      await ropeRecord.setFieldValue(fieldName, cleanValue);
+
+      if (!ropeRecord.ropeMetadata) {
+        throw new Error(`No metadata found for field: ${fieldName}`);
+      }
+
+      // Pass metadata wrapped in an array
+      await ropeRecord.setFieldValue(fieldName, cleanValue, ropeRecord.ropeMetadata);
     }
+
     this.ropeRecord = ropeRecord;
     await executeWithDelay();
   },
