@@ -1,7 +1,7 @@
 @Hoist @Rope-Record
 Feature: Rope Records
 
-  Scenario: Add rope record
+  Scenario: Add new rope
     Given I navigate to the Rope record page
     And I add a new rope
     And I provide the following rope information - greg
