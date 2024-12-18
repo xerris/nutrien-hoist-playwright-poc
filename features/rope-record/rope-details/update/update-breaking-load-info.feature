@@ -1,5 +1,5 @@
-@Hoist @Rope-Detail
-Feature: Rope Detail
+@Hoist @Update-Rope-Detail
+Feature: Update Rope Detail
 
   Background: Login
     Given I navigate to the Rope record page

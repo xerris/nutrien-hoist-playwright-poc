@@ -1,5 +1,5 @@
-@Hoist @Rope-Detail
-Feature: Rope Detail
+@Hoist @View-Rope-Detail
+Feature: View Rope Detail
 
   Background: Login
     Given I navigate to the Rope record page
@@ -20,4 +20,3 @@ Feature: Rope Detail
       | Install details      |
       | Attachments          |
       | Construction details |
-      
