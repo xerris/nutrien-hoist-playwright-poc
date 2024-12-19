@@ -1,6 +1,8 @@
-import { DataTable, When } from '@cucumber/cucumber';
+import { DataTable, Then, When } from '@cucumber/cucumber';
+import { expect } from '@playwright/test';
 
 import { CreateRopeRecord } from '../../../pages/CreateRopeRecord';
+import { EmailVerification } from '../../../pages/EmailVerification';
 import { IHoistWorld } from '../../../support/hoist-world';
 
 When(
@@ -18,6 +20,17 @@ When(
     const download1Promise = page.waitForEvent('download');
     await page.getByRole('button', { name: 'Confirm' }).click();
     const download1 = await download1Promise;
-    console.log('downloading email', download1);
+    const emailPage = new EmailVerification(this.page!);
+    emailPage.verifyRequestExtensionEmailName(download1);
+  },
+);
+
+Then(
+  'I should be able to see the request in Extension history section',
+  async function (this: IHoistWorld) {
+    await this.page?.getByRole('tab', { name: 'Rope information' }).click();
+    const page = this.page!;
+    const expectedValue = '6';
+    await expect(page.getByText(`Requested: ${expectedValue} days`).first()).toBeVisible();
   },
 );
