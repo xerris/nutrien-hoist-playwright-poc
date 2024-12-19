@@ -1,9 +1,9 @@
 import { DataTable, Given, When } from '@cucumber/cucumber';
 
-import { SCREENSHOT_DIR } from '../../../constants';
-import { CreateRopeRecord } from '../../pages/CreateRopeRecord';
-import { HoistWorld, IHoistWorld } from '../../support/hoist-world';
-import { UniqueIdentifierGenerator } from '../../support/UniqueIdentifierGenerator';
+import { SCREENSHOT_DIR } from '../../../../constants';
+import { CreateRopeRecord } from '../../../pages/CreateRopeRecord';
+import { HoistWorld, IHoistWorld } from '../../../support/hoist-world';
+import { UniqueIdentifierGenerator } from '../../../support/UniqueIdentifierGenerator';
 
 Given('I add a new rope', async function (this: IHoistWorld) {
   const createRopeRecord = new CreateRopeRecord(this.page!);
@@ -19,15 +19,23 @@ Given(
     const ropeRecord = new CreateRopeRecord(page); // Create an instance of CreateRopeRecord
 
     for (const [fieldName, value] of Object.entries(ropeInfo)) {
-      let cleanValue = value.replace(/"/g, '').trim().toLowerCase(); // Clean up value
+      let cleanValue = value;
 
+      // Handle specific fields like Serial number
       if (fieldName === 'Serial number') {
         cleanValue = uniqueGenerator.generateUniqueValue('CUCSNO', 6); // Generate unique serial number
         this.generatedSerialNumber = cleanValue;
         HoistWorld.sharedState.generatedSerialNumber = cleanValue;
       }
-      await ropeRecord.setFieldValue(fieldName, cleanValue);
+
+      if (!ropeRecord.ropeMetadata) {
+        throw new Error(`No metadata found for field: ${fieldName}`);
+      }
+
+      // Pass metadata wrapped in an array
+      await ropeRecord.setFieldValue(fieldName, cleanValue, ropeRecord.ropeMetadata);
     }
+
     this.ropeRecord = ropeRecord;
     await executeWithDelay();
   },
@@ -44,12 +52,6 @@ async function executeWithDelay() {
   await sleep(5000); // Pause for 5 seconds
   console.log('Done');
 }
-
-When('I do this', function (this: IHoistWorld) {
-  if (this.generatedSerialNumber) {
-    console.log(`Generated serial number: ${HoistWorld.sharedState.generatedSerialNumber}`);
-  }
-});
 
 When('I click on Save', async function (this: IHoistWorld) {
   const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
