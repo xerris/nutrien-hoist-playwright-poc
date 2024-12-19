@@ -17,7 +17,32 @@ Given(
   async function (this: IHoistWorld, serialNumber: string) {
     const page = this.page!;
     console.log('Searching for:', serialNumber);
-    await page.getByRole('gridcell', { name: serialNumber, exact: true }).click();
+
+    try {
+      await page
+        .getByRole('gridcell', { name: serialNumber, exact: true })
+        .click({ timeout: 5000 });
+    } catch {
+      console.log(
+        `Rope ${serialNumber} not found as 'In Service' or 'Spare' rope - expanding search to check all status types (In Service, Spare, and Retired)...`,
+      );
+
+      const statusHeader = page.locator('.ag-cell-label-container').filter({ hasText: 'Status' });
+      await statusHeader.locator('.menu-icon').click();
+
+      await page.getByLabel('(Select All)').check();
+
+      try {
+        await page
+          .getByRole('gridcell', { name: serialNumber, exact: true })
+          .click({ timeout: 5000 });
+      } catch {
+        throw new Error(
+          `Rope not found - please check if serial number ${serialNumber} is correct`,
+        );
+      }
+    }
+
     const text = page.getByText('Rope record details', { exact: true });
     await expect(text).toBeVisible();
   },
