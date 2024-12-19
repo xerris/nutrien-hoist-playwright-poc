@@ -1,4 +1,4 @@
-import { DataTable, Given, When } from '@cucumber/cucumber';
+import { DataTable, Given, Then, When } from '@cucumber/cucumber';
 
 import { SCREENSHOT_DIR } from '../../../../constants';
 import { CreateRopeRecord } from '../../../pages/CreateRopeRecord';
@@ -11,18 +11,18 @@ Given('I add a new rope', async function (this: IHoistWorld) {
 });
 
 Given(
-  'I provide the following rope information - greg',
-  async function (this: IHoistWorld, dataTable: DataTable): Promise<void> {
+  'I provide the following rope information with {string} serial number',
+  async function (this: IHoistWorld, serialNumberType: string, dataTable: DataTable): Promise<void> {
     const page = this.page!;
     const uniqueGenerator = new UniqueIdentifierGenerator();
     const ropeInfo = dataTable.rowsHash();
-    const ropeRecord = new CreateRopeRecord(page); // Create an instance of CreateRopeRecord
+    const ropeRecord = new CreateRopeRecord(page);
 
     for (const [fieldName, value] of Object.entries(ropeInfo)) {
       let cleanValue = value;
 
       // Handle specific fields like Serial number
-      if (fieldName === 'Serial number') {
+      if (fieldName === 'Serial number' && serialNumberType === 'Unique') {
         cleanValue = uniqueGenerator.generateUniqueValue('CUCSNO', 6); // Generate unique serial number
         this.generatedSerialNumber = cleanValue;
         HoistWorld.sharedState.generatedSerialNumber = cleanValue;
@@ -40,7 +40,6 @@ Given(
     await executeWithDelay();
   },
 );
-
 // Define the sleep function
 async function sleep(ms: number): Promise<void> {
   return new Promise(resolve => setTimeout(resolve, ms));
@@ -65,4 +64,9 @@ When('I click on Save', async function (this: IHoistWorld) {
   });
 
   await this.page?.getByRole('button', { name: 'Save' }).click();
+});
+
+Then('I should get a duplicate serial number error', async function (this: IHoistWorld) {
+  const page = this.page!;
+  await page.locator('div').filter({ hasText: /^This serial number is already in use$/ }).nth(1).waitFor({ state: 'visible', timeout: 180000 });
 });
