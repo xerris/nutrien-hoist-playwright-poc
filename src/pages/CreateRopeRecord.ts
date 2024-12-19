@@ -35,10 +35,15 @@ export class CreateRopeRecord {
     { name: 'Standard torsion test of the', type: 'input' },
     { name: 'The percentage by mass of', type: 'input' },
     { name: 'The trade name of the', type: 'input' },
+    { name: 'Request by days', type: 'input' },
   ];
 
   // Dynamic field value setter
-  public async setFieldValue(fieldName: string, value: string, metadata: FormFieldMetadata[]): Promise<void> {
+  public async setFieldValue(
+    fieldName: string,
+    value: string,
+    metadata: FormFieldMetadata[],
+  ): Promise<void> {
     const fieldMeta = metadata.find(meta => meta.name === fieldName);
     if (!fieldMeta) {
       throw new Error(`Field metadata not found for "${fieldName}"`);
@@ -47,7 +52,10 @@ export class CreateRopeRecord {
   }
 
   // Set multiple field values for a specific metadata group
-  public async setFieldValues(fields: Record<string, string>, metadata: FormFieldMetadata[]): Promise<void> {
+  public async setFieldValues(
+    fields: Record<string, string>,
+    metadata: FormFieldMetadata[],
+  ): Promise<void> {
     for (const [fieldName, value] of Object.entries(fields)) {
       await this.setFieldValue(fieldName, value, metadata);
     }

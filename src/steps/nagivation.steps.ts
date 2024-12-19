@@ -48,6 +48,36 @@ Given(
   },
 );
 
+Given(
+  'I navigate to the Rope Detail Page for an In Service rope with Serial number {string}',
+  async function (this: IHoistWorld, serialNumber: string) {
+    const page = this.page!;
+    console.log(`Searching for In Service rope: ${serialNumber}`);
+
+    try {
+      await page
+        .getByRole('gridcell', { name: serialNumber, exact: true })
+        .click({ timeout: 5000 });
+    } catch {
+      const statusHeader = page.locator('.ag-cell-label-container').filter({ hasText: 'Status' });
+      await statusHeader.locator('.menu-icon').click();
+      await page.getByLabel('(Select All)').uncheck();
+      await page.getByLabel('In Service').check();
+
+      try {
+        await page
+          .getByRole('gridcell', { name: serialNumber, exact: true })
+          .click({ timeout: 5000 });
+      } catch {
+        throw new Error(`Rope ${serialNumber} not found in 'In Service' status`);
+      }
+    }
+
+    const text = page.getByText('Rope record details', { exact: true });
+    await expect(text).toBeVisible();
+  },
+);
+
 Given('I navigate to the Rope Detail Page for a {string} rope', async function (this: IHoistWorld) {
   const page = this.page!;
   await page.getByRole('gridcell', { name: 'status' }).click();
