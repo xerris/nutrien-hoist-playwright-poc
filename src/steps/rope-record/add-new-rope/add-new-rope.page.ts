@@ -1,9 +1,9 @@
 import { DataTable, Given, When } from '@cucumber/cucumber';
 
-import { SCREENSHOT_DIR } from '../../../constants';
-import { CreateRopeRecord } from '../../pages/CreateRopeRecord';
-import { HoistWorld, IHoistWorld } from '../../support/hoist-world';
-import { UniqueIdentifierGenerator } from '../../support/UniqueIdentifierGenerator';
+import { SCREENSHOT_DIR } from '../../../../constants';
+import { CreateRopeRecord } from '../../../pages/CreateRopeRecord';
+import { HoistWorld, IHoistWorld } from '../../../support/hoist-world';
+import { UniqueIdentifierGenerator } from '../../../support/UniqueIdentifierGenerator';
 
 Given('I add a new rope', async function (this: IHoistWorld) {
   const createRopeRecord = new CreateRopeRecord(this.page!);
