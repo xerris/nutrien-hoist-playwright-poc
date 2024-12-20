@@ -72,7 +72,7 @@ export class FormHelper {
 
   // Method to fill date fields
   private async fillDateField(page: Page, name: string, dateString?: string): Promise<void> {
-    await page.getByText(name).click();
+    await page.getByText(name, { exact: true }).click();
 
     if (!dateString) {
       await page.getByRole('button', { name: 'OK', exact: true }).click();
@@ -84,8 +84,9 @@ export class FormHelper {
     const targetMonth = date.toLocaleString('default', { month: 'long' });
     const targetDay = date.getDate().toString();
 
-    // click the current year to display the year list
-    await page.getByRole('button', { name: targetYear }).click();
+    // click the current selected year in the Date Picker to display the year list
+    await page.getByRole('button', { name: /^\d{4}$/ }).click();
+
     // then select the target year
     await page
       .locator('div')
