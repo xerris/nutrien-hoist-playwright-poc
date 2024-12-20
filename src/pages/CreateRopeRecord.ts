@@ -46,10 +46,11 @@ export class CreateRopeRecord {
     await this.formHelper.setField(this.page, fieldName, value, metadata);
   }
 
-  // Set multiple field values for a specific metadata group
-  public async setFieldValues(fields: Record<string, string>, metadata: FormFieldMetadata[]): Promise<void> {
-    for (const [fieldName, value] of Object.entries(fields)) {
-      await this.setFieldValue(fieldName, value, metadata);
+  // Central method to fill fields dynamically
+  public async fillRopeFields(ropeInfo: Record<string, string>): Promise<void> {
+    // Iterate over the ropeInfo object and set each field dynamically
+    for (const [fieldName, value] of Object.entries(ropeInfo)) {
+      await this.setFieldValue(fieldName, value, this.ropeMetadata);
     }
   }
 
@@ -84,10 +85,5 @@ export class CreateRopeRecord {
     for (const tabName of accordionTabs) {
       await this.openAccordionTab(tabName);
     }
-  }
-
-  // Set field values for specific metadata groups
-  public async setRopeInformation(fields: Record<string, string>) {
-    await this.setFieldValues(fields, this.ropeMetadata);
   }
 }

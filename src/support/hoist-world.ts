@@ -28,6 +28,7 @@ export interface IHoistWorld extends World {
   envConfig: EnvironmentConfig;
   ropeRecord?: CreateRopeRecord;
   generatedSerialNumber?: string;
+  ropeInfo?: Record<string, string>;
 }
 export class HoistWorld extends World implements IHoistWorld {
   debug = false;
@@ -39,8 +40,12 @@ export class HoistWorld extends World implements IHoistWorld {
   cookies?: Cookie[] = []; // new change
   ropeRecord?: CreateRopeRecord;
   generatedSerialNumber?: string;
+  ropeInfo?: Record<string, string>;
 
-  static sharedState: { generatedSerialNumber?: string } = {};
+  static sharedState: {
+    generatedSerialNumber?: string;
+    ropeInfo?: Record<string, string>;
+  } = {};
 
   constructor(options: IWorldOptions) {
     super(options);
