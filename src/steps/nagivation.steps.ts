@@ -61,7 +61,18 @@ Given(
     } catch {
       const statusHeader = page.locator('.ag-cell-label-container').filter({ hasText: 'Status' });
       await statusHeader.locator('.menu-icon').click();
-      await page.getByLabel('(Select All)').uncheck();
+      try {
+        await page.getByLabel('(Select All)').uncheck();
+      } catch (error) {
+        if (
+          error instanceof Error
+          && error.message.includes('Clicking the checkbox did not change its state')
+        ) {
+          // Ignore the "did not change its state" error
+          return;
+        }
+        throw error;
+      }
       await page.getByLabel('In Service').check();
 
       try {

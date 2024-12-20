@@ -36,6 +36,7 @@ export class CreateRopeRecord {
     { name: 'The percentage by mass of', type: 'input' },
     { name: 'The trade name of the', type: 'input' },
     { name: 'Request by days', type: 'input' },
+    { name: 'Request by date', type: 'date' },
   ];
 
   // Dynamic field value setter
