@@ -65,11 +65,11 @@ When('I click on Save', async function (this: IHoistWorld) {
   await this.page?.getByRole('button', { name: 'Save' }).click();
 });
 
-Then('I should get a duplicate serial number error', async function (this: IHoistWorld) {
+Then('I should get a duplicate serial number error as {string}', async function (this: IHoistWorld, errorMessage: string) {
   const page = this.page!;
   await page
     .locator('div')
-    .filter({ hasText: /^This serial number is already in use$/ })
+    .filter({ hasText: errorMessage })
     .nth(1)
     .waitFor({ state: 'visible', timeout: 180000 });
 });

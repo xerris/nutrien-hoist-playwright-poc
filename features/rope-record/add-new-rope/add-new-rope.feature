@@ -36,4 +36,4 @@ Feature: Rope Records
       And I add a new rope
       And I reuse the same serial number and rope information from the previous rope
       When I click on Save
-      Then I should get a duplicate serial number error
+      Then I should get a duplicate serial number error as 'This serial number is already in use'
