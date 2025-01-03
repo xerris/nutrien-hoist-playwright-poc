@@ -88,67 +88,42 @@ export class FormHelper {
     await page.getByRole('button', { name: /^\d{4}$/ }).click();
 
     // then select the target year
-    await page
+    await page.getByRole('button', { name: targetYear }).click();
+
+    // we'll be on January. navigate forward until we reach target month
+    let currentMonth = await page
       .locator('div')
-      .filter({ hasText: new RegExp(`^${targetYear}$`) })
-      .click();
-
-    // get current month and year
-    const getCurrentHeader = async () => {
-      const headerLocator = page.locator('div').filter({
-        hasText: new RegExp(`^${targetMonth} ${targetYear}SuMoTuWeThFrSa$`),
-      });
-      const exists = (await headerLocator.count()) > 0;
-      if (!exists) return null;
-      const header = await headerLocator.textContent();
-      return header?.split(' ')[0] ?? null;
-    };
-
-    let currentMonth = await getCurrentHeader();
-
-    // navigate until we reach target month
+      .filter({ hasText: /^[A-Za-z]+ \d{4}SuMoTuWeThFrSa$/ })
+      .textContent()
+      .then(text => text?.split(' ')[0] ?? null);
     while (currentMonth !== targetMonth) {
-      if (!currentMonth) {
-        // move forward until header (selected month) matches target month
-        await page
-          .locator('div')
-          .filter({
-            hasText: /^[A-Za-z]+ \d{4}SuMoTuWeThFrSa$/,
-          })
-          .getByRole('button')
-          .nth(1)
-          .click();
-      } else {
-        const currentDate = new Date(`${currentMonth} 1 ${targetYear}`);
-        const targetDate = new Date(`${targetMonth} 1 ${targetYear}`);
-
-        if (currentDate < targetDate) {
-          await page
-            .locator('div')
-            .filter({
-              hasText: new RegExp(`^${currentMonth} ${targetYear}SuMoTuWeThFrSa$`),
-            })
-            .getByRole('button')
-            .nth(1)
-            .click();
-        } else {
-          await page
-            .locator('div')
-            .filter({
-              hasText: new RegExp(`^${currentMonth} ${targetYear}SuMoTuWeThFrSa$`),
-            })
-            .getByRole('button')
-            .first()
-            .click();
-        }
-      }
+      await page
+        .locator('div')
+        .filter({ hasText: new RegExp(`^${currentMonth} ${targetYear}SuMoTuWeThFrSa$`) })
+        .getByRole('button')
+        .nth(1)
+        .click();
 
       await page.waitForTimeout(100);
-      currentMonth = await getCurrentHeader();
+      currentMonth = await page
+        .locator('div')
+        .filter({ hasText: /^[A-Za-z]+ \d{4}SuMoTuWeThFrSa$/ })
+        .textContent()
+        .then(text => text?.split(' ')[0] ?? null);
     }
 
-    // select the date
-    await page.getByRole('button', { name: targetDay, exact: true }).click();
+    // select the visible date
+    const visibleDateButtons = page.locator('button', { hasText: targetDay });
+    const currentMonthDateIndex = await visibleDateButtons.evaluateAll(
+      (elements, target) => {
+        return elements.findIndex(
+          button => button.textContent === target.day && button.tabIndex === 0,
+        );
+      },
+      { day: targetDay },
+    );
+
+    await visibleDateButtons.nth(currentMonthDateIndex).click();
   }
 
   public getFieldMetadata(

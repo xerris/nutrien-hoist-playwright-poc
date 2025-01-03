@@ -1,8 +1,8 @@
 import { DataTable, Given, Then } from '@cucumber/cucumber';
 import { expect } from 'playwright/test';
 
-import { ActionItems } from '../../pages/ActionItems';
-import { IHoistWorld } from '../../support/hoist-world';
+import { ActionItems } from '@/pages/ActionItems';
+import { IHoistWorld } from '@/support/hoist-world';
 
 Then('I can see Hoist and shaft action items text', async function (this: IHoistWorld) {
   const page = this.page!;

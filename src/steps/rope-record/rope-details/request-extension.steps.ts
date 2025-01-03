@@ -1,9 +1,9 @@
 import { Then, When } from '@cucumber/cucumber';
 import { expect } from '@playwright/test';
 
-import { CreateRopeRecord } from '../../../pages/CreateRopeRecord';
-import { EmailVerification } from '../../../pages/EmailVerification';
-import { IHoistWorld } from '../../../support/hoist-world';
+import { CreateRopeRecord } from '@/pages/CreateRopeRecord';
+import { EmailVerification } from '@/pages/EmailVerification';
+import { IHoistWorld } from '@/support/hoist-world';
 
 Then(
   'I should be able to see the request in Extension history section',
@@ -22,7 +22,7 @@ Then(
     await page.getByRole('button', { name: 'Confirm' }).click();
     const emailDownload = await downloadPromise;
 
-    const emailPage = new EmailVerification(this.page!);
+    const emailPage = new EmailVerification();
     emailPage.verifyEmail(emailDownload, /^Request extension -.+\.eml$/);
 
     // navigate to Rope information tab to verify the extension request

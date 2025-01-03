@@ -1,6 +1,6 @@
 import { expect, Page } from '@playwright/test';
 
-import { FormFieldMetadata, FormHelper } from '../support/FormHelper';
+import { FormFieldMetadata, FormHelper } from '@/support/FormHelper';
 
 export class CreateRopeRecord {
   private readonly page: Page;
@@ -37,6 +37,8 @@ export class CreateRopeRecord {
     { name: 'The trade name of the', type: 'input' },
     { name: 'Request by days', type: 'input' },
     { name: 'Request by date', type: 'date' },
+    { name: 'EM test date', type: 'date' },
+    { name: 'Percent loss', type: 'input' },
   ];
 
   // Dynamic field value setter

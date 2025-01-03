@@ -2,8 +2,9 @@ import { Given } from '@cucumber/cucumber';
 import { Page } from '@playwright/test';
 import { expect } from 'playwright/test';
 
+import { HoistWorld, IHoistWorld } from '@/support/hoist-world';
+
 import { SCREENSHOT_DIR } from '../../constants';
-import { HoistWorld, IHoistWorld } from '../support/hoist-world';
 
 async function filterRopesByStatus(page: Page, status?: string) {
   const statusHeader = page.locator('.ag-cell-label-container').filter({ hasText: 'Status' });
