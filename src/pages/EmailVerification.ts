@@ -7,8 +7,9 @@ export class EmailVerification {
     this.page = page;
   }
 
-  verifyRequestExtensionEmailName(download: Download): void {
+  verifyEmail(download: Download, expectedFilePattern: RegExp): boolean {
     const filename = download.suggestedFilename();
-    expect(filename).toMatch(/^Request extension -.+\.eml$/);
+    expect(filename).toMatch(expectedFilePattern);
+    return true;
   }
 }

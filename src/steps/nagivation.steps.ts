@@ -1,8 +1,32 @@
 import { Given } from '@cucumber/cucumber';
+import { Page } from '@playwright/test';
 import { expect } from 'playwright/test';
 
 import { SCREENSHOT_DIR } from '../../constants';
 import { HoistWorld, IHoistWorld } from '../support/hoist-world';
+
+async function filterRopesByStatus(page: Page, status?: string) {
+  const statusHeader = page.locator('.ag-cell-label-container').filter({ hasText: 'Status' });
+  await statusHeader.locator('.menu-icon').click();
+
+  try {
+    if (status) {
+      await page.getByLabel('(Select All)').uncheck();
+      await page.getByLabel(status).check();
+    } else {
+      await page.getByLabel('(Select All)').check();
+    }
+  } catch (error) {
+    if (
+      error instanceof Error
+      && error.message.includes('Clicking the checkbox did not change its state')
+    ) {
+      // Ignore the "did not change its state" error
+      return;
+    }
+    throw error;
+  }
+}
 
 Given('I navigate to the Rope record page', async function (this: IHoistWorld) {
   const page = this.page!;
@@ -27,10 +51,7 @@ Given(
         `Rope ${serialNumber} not found as 'In Service' or 'Spare' rope - expanding search to check all status types (In Service, Spare, and Retired)...`,
       );
 
-      const statusHeader = page.locator('.ag-cell-label-container').filter({ hasText: 'Status' });
-      await statusHeader.locator('.menu-icon').click();
-
-      await page.getByLabel('(Select All)').check();
+      await filterRopesByStatus(page); // select all status
 
       try {
         await page
@@ -49,43 +70,35 @@ Given(
 );
 
 Given(
-  'I navigate to the Rope Detail Page for an In Service rope with Serial number {string}',
+  /^I navigate to the Rope Detail Page for an In Service rope(?:\s+with Serial number '([^']*)')?$/,
   async function (this: IHoistWorld, serialNumber: string) {
     const page = this.page!;
+    await filterRopesByStatus(page, 'In Service');
     console.log(`Searching for In Service rope: ${serialNumber}`);
 
-    try {
-      await page
-        .getByRole('gridcell', { name: serialNumber, exact: true })
-        .click({ timeout: 5000 });
-    } catch {
-      const statusHeader = page.locator('.ag-cell-label-container').filter({ hasText: 'Status' });
-      await statusHeader.locator('.menu-icon').click();
-      try {
-        await page.getByLabel('(Select All)').uncheck();
-      } catch (error) {
-        if (
-          error instanceof Error
-          && error.message.includes('Clicking the checkbox did not change its state')
-        ) {
-          // Ignore the "did not change its state" error
-          return;
-        }
-        throw error;
-      }
-      await page.getByLabel('In Service').check();
-
+    if (serialNumber) {
+      console.log(`Searching for In Service rope: ${serialNumber}`);
       try {
         await page
           .getByRole('gridcell', { name: serialNumber, exact: true })
           .click({ timeout: 5000 });
+        await expect(page.getByText('Rope record details', { exact: true })).toBeVisible();
+        return;
       } catch {
-        throw new Error(`Rope ${serialNumber} not found in 'In Service' status`);
+        console.log(
+          `Rope ${serialNumber} not found. Clicking first available in-service rope instead.`,
+        );
       }
     }
 
-    const text = page.getByText('Rope record details', { exact: true });
-    await expect(text).toBeVisible();
+    // click first In Service rope if either Serial Number is not provided or found
+    try {
+      await page.locator('.ag-row-first .ag-cell').first().click({ timeout: 5000 });
+    } catch {
+      throw new Error('No in-service ropes found in the system');
+    }
+
+    await expect(page.getByText('Rope record details', { exact: true })).toBeVisible();
   },
 );
 

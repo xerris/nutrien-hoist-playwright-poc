@@ -18,12 +18,12 @@ Then(
     await page.getByRole('button', { name: 'Next' }).click();
 
     // download the Request Extension eml
-    const download1Promise = page.waitForEvent('download');
-    // confirmation modal
+    const downloadPromise = page.waitForEvent('download');
     await page.getByRole('button', { name: 'Confirm' }).click();
-    const download1 = await download1Promise;
+    const emailDownload = await downloadPromise;
+
     const emailPage = new EmailVerification(this.page!);
-    emailPage.verifyRequestExtensionEmailName(download1);
+    emailPage.verifyEmail(emailDownload, /^Request extension -.+\.eml$/);
 
     // navigate to Rope information tab to verify the extension request
     await page.getByRole('tab', { name: 'Rope information' }).click();

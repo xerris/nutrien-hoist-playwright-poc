@@ -3,7 +3,7 @@ Feature: Rope Records
 
   Background: Login
     Given I navigate to the Rope record page
-    And I navigate to the Rope Detail Page for an In Service rope with Serial number 'CUCSNO168681'
+    And I navigate to the Rope Detail Page for an In Service rope
 
   Scenario: User requests an extension by days for an In Service rope
     When I request an extension for '6' days
