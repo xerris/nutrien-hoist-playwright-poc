@@ -1,7 +1,7 @@
 import { DataTable, Given, Then } from '@cucumber/cucumber';
 import { expect } from 'playwright/test';
 
-import { IHoistWorld } from '../../../../support/hoist-world';
+import { IHoistWorld } from '@/support/hoist-world';
 
 Then(
   'the following sections should be visible:',

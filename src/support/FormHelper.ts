@@ -36,7 +36,7 @@ export class FormHelper {
         break;
 
       case 'date':
-        await this.fillDateField(page, name);
+        await this.fillDateField(page, name, value);
         break;
 
       case 'input':
@@ -71,9 +71,59 @@ export class FormHelper {
   }
 
   // Method to fill date fields
-  private async fillDateField(page: Page, name: string): Promise<void> {
-    await page.getByRole('textbox', { name }).click();
-    await page.getByRole('button', { name: 'OK', exact: true }).click();
+  private async fillDateField(page: Page, name: string, dateString?: string): Promise<void> {
+    await page.getByText(name, { exact: true }).click();
+
+    if (!dateString) {
+      await page.getByRole('button', { name: 'OK', exact: true }).click();
+      return;
+    }
+
+    const date = new Date(dateString);
+    const targetYear = date.getFullYear().toString();
+    const targetMonth = date.toLocaleString('default', { month: 'long' });
+    const targetDay = date.getDate().toString();
+
+    // click the current selected year in the Date Picker to display the year list
+    await page.getByRole('button', { name: /^\d{4}$/ }).click();
+
+    // then select the target year
+    await page.getByRole('button', { name: targetYear }).click();
+
+    // we'll be on January. navigate forward until we reach target month
+    let currentMonth = await page
+      .locator('div')
+      .filter({ hasText: /^[A-Za-z]+ \d{4}SuMoTuWeThFrSa$/ })
+      .textContent()
+      .then(text => text?.split(' ')[0] ?? null);
+    while (currentMonth !== targetMonth) {
+      await page
+        .locator('div')
+        .filter({ hasText: new RegExp(`^${currentMonth} ${targetYear}SuMoTuWeThFrSa$`) })
+        .getByRole('button')
+        .nth(1)
+        .click();
+
+      await page.waitForTimeout(100);
+      currentMonth = await page
+        .locator('div')
+        .filter({ hasText: /^[A-Za-z]+ \d{4}SuMoTuWeThFrSa$/ })
+        .textContent()
+        .then(text => text?.split(' ')[0] ?? null);
+    }
+
+    // select the visible date
+    const visibleDateButtons = page.locator('button', { hasText: targetDay });
+    const currentMonthDateIndex = await visibleDateButtons.evaluateAll(
+      (elements, target) => {
+        return elements.findIndex(
+          button => button.textContent === target.day && button.tabIndex === 0,
+        );
+      },
+      { day: targetDay },
+    );
+
+    await visibleDateButtons.nth(currentMonthDateIndex).click();
   }
 
   public getFieldMetadata(
