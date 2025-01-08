@@ -84,11 +84,14 @@ export class FormHelper {
     const targetMonth = date.toLocaleString('default', { month: 'long' });
     const targetDay = date.getDate().toString();
 
-    // click the current selected year in the Date Picker to display the year list
-    await page.getByRole('button', { name: /^\d{4}$/ }).click();
-
-    // then select the target year
-    await page.getByRole('button', { name: targetYear }).click();
+    // check if date picker is on our target year
+    const headerButton = page.locator('button').filter({ hasText: targetYear });
+    if ((await headerButton.count()) === 0) {
+      // if not then display the year selection list
+      await page.getByRole('button', { name: /^\d{4}$/ }).click();
+      // then select the target year
+      await page.getByRole('button', { name: targetYear }).click();
+    }
 
     // we'll be on January. navigate forward until we reach target month
     let currentMonth = await page
