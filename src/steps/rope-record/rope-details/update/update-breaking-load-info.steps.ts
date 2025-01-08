@@ -1,7 +1,7 @@
 import { DataTable, Then, When } from '@cucumber/cucumber';
 
-import { CreateRopeRecord } from '../../../../pages/CreateRopeRecord';
-import { IHoistWorld } from '../../../../support/hoist-world';
+import { CreateRopeRecord } from '@/pages/CreateRopeRecord';
+import { IHoistWorld } from '@/support/hoist-world';
 
 When(
   'I provide the following information in the Breaking load form',

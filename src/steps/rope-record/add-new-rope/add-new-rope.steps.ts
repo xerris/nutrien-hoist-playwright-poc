@@ -1,9 +1,10 @@
 import { DataTable, Given, Then, When } from '@cucumber/cucumber';
 
+import { CreateRopeRecord } from '@/pages/CreateRopeRecord';
+import { HoistWorld, IHoistWorld } from '@/support/hoist-world';
+import { UniqueIdentifierGenerator } from '@/support/UniqueIdentifierGenerator';
+
 import { SCREENSHOT_DIR } from '../../../../constants';
-import { CreateRopeRecord } from '../../../pages/CreateRopeRecord';
-import { HoistWorld, IHoistWorld } from '../../../support/hoist-world';
-import { UniqueIdentifierGenerator } from '../../../support/UniqueIdentifierGenerator';
 
 Given('I add a new rope', async function (this: IHoistWorld) {
   const createRopeRecord = new CreateRopeRecord(this.page!);
@@ -12,7 +13,11 @@ Given('I add a new rope', async function (this: IHoistWorld) {
 
 Given(
   'I provide the following rope information with {string} serial number',
-  async function (this: IHoistWorld, serialNumberType: string, dataTable: DataTable): Promise<void> {
+  async function (
+    this: IHoistWorld,
+    serialNumberType: string,
+    dataTable: DataTable,
+  ): Promise<void> {
     const ropeInfo = dataTable.rowsHash(); // Convert Gherkin table to object
     const ropeRecord = new CreateRopeRecord(this.page!);
 
@@ -34,22 +39,25 @@ Given(
   },
 );
 
-Given('I reuse the same serial number and rope information from the previous rope', async function (this: IHoistWorld) {
-  if (!this.generatedSerialNumber) {
-    throw new Error('No previously generated serial number found to reuse.');
-  }
-  const ropeRecord = new CreateRopeRecord(this.page!);
+Given(
+  'I reuse the same serial number and rope information from the previous rope',
+  async function (this: IHoistWorld) {
+    if (!this.generatedSerialNumber) {
+      throw new Error('No previously generated serial number found to reuse.');
+    }
+    const ropeRecord = new CreateRopeRecord(this.page!);
 
-  // Reuse the previous ropeInfo
-  const ropeInfo = HoistWorld.sharedState.ropeInfo ?? {};
+    // Reuse the previous ropeInfo
+    const ropeInfo = HoistWorld.sharedState.ropeInfo ?? {};
 
-  // Reuse the previous serial number
-  ropeInfo['Serial number'] = this.generatedSerialNumber;
+    // Reuse the previous serial number
+    ropeInfo['Serial number'] = this.generatedSerialNumber;
 
-  // Fill the form with the cached ropeInfo
-  await ropeRecord.fillRopeFields(ropeInfo);
-  this.ropeRecord = ropeRecord;
-});
+    // Fill the form with the cached ropeInfo
+    await ropeRecord.fillRopeFields(ropeInfo);
+    this.ropeRecord = ropeRecord;
+  },
+);
 
 When('I click on Save', async function (this: IHoistWorld) {
   const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
@@ -65,14 +73,17 @@ When('I click on Save', async function (this: IHoistWorld) {
   await this.page?.getByRole('button', { name: 'Save' }).click();
 });
 
-Then('I should get a duplicate serial number error as {string}', async function (this: IHoistWorld, errorMessage: string) {
-  const page = this.page!;
-  await page
-    .locator('div')
-    .filter({ hasText: errorMessage })
-    .nth(1)
-    .waitFor({ state: 'visible', timeout: 180000 });
-});
+Then(
+  'I should get a duplicate serial number error as {string}',
+  async function (this: IHoistWorld, errorMessage: string) {
+    const page = this.page!;
+    await page
+      .locator('div')
+      .filter({ hasText: errorMessage })
+      .nth(1)
+      .waitFor({ state: 'visible', timeout: 180000 });
+  },
+);
 
 // Define the sleep function
 async function sleep(ms: number): Promise<void> {

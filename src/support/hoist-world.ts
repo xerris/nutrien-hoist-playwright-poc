@@ -9,8 +9,8 @@ import {
   PlaywrightTestOptions,
 } from '@playwright/test';
 
-import { EnvironmentConfig, environments } from '../config/hoist-environments';
-import { CreateRopeRecord } from '../pages/CreateRopeRecord';
+import { EnvironmentConfig, environments } from '@/config/hoist-environments';
+import { CreateRopeRecord } from '@/pages/CreateRopeRecord';
 
 export interface IHoistWorld extends World {
   debug: boolean;

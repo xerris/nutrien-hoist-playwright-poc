@@ -1,6 +1,6 @@
 import { expect, Page } from '@playwright/test';
 
-import { FormFieldMetadata, FormHelper } from '../support/FormHelper';
+import { FormFieldMetadata, FormHelper } from '@/support/FormHelper';
 
 export class CreateRopeRecord {
   private readonly page: Page;
@@ -35,10 +35,18 @@ export class CreateRopeRecord {
     { name: 'Standard torsion test of the', type: 'input' },
     { name: 'The percentage by mass of', type: 'input' },
     { name: 'The trade name of the', type: 'input' },
+    { name: 'Request by days', type: 'input' },
+    { name: 'Request by date', type: 'date' },
+    { name: 'EM test date', type: 'date' },
+    { name: 'Percent loss', type: 'input' },
   ];
 
   // Dynamic field value setter
-  public async setFieldValue(fieldName: string, value: string, metadata: FormFieldMetadata[]): Promise<void> {
+  public async setFieldValue(
+    fieldName: string,
+    value: string,
+    metadata: FormFieldMetadata[],
+  ): Promise<void> {
     const fieldMeta = metadata.find(meta => meta.name === fieldName);
     if (!fieldMeta) {
       throw new Error(`Field metadata not found for "${fieldName}"`);
@@ -46,11 +54,13 @@ export class CreateRopeRecord {
     await this.formHelper.setField(this.page, fieldName, value, metadata);
   }
 
-  // Central method to fill fields dynamically
-  public async fillRopeFields(ropeInfo: Record<string, string>): Promise<void> {
-    // Iterate over the ropeInfo object and set each field dynamically
-    for (const [fieldName, value] of Object.entries(ropeInfo)) {
-      await this.setFieldValue(fieldName, value, this.ropeMetadata);
+  // Set multiple field values for a specific metadata group
+  public async setFieldValues(
+    fields: Record<string, string>,
+    metadata: FormFieldMetadata[],
+  ): Promise<void> {
+    for (const [fieldName, value] of Object.entries(fields)) {
+      await this.setFieldValue(fieldName, value, metadata);
     }
   }
 
@@ -85,5 +95,10 @@ export class CreateRopeRecord {
     for (const tabName of accordionTabs) {
       await this.openAccordionTab(tabName);
     }
+  }
+
+  // Set field values for specific metadata groups
+  public async setRopeInformation(fields: Record<string, string>) {
+    await this.setFieldValues(fields, this.ropeMetadata);
   }
 }
