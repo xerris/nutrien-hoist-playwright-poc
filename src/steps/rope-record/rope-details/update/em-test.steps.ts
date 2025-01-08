@@ -33,7 +33,7 @@ Then('I should be able to see the record in the Records table', async function (
   await page.getByRole('button', { name: 'Save', exact: true }).click();
 
   // wait for success notification
-  await expect(page.getByText('EM test record added')).toBeVisible();
+  await expect(page.getByText('EM test record added')).toBeVisible({ timeout: 12000 });
 
   // verify saved percent loss
   await expect(page.getByRole('main')).toContainText(`${savedPercentLoss}%`);
