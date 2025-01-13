@@ -27,10 +27,11 @@ Then(
   'I should be able to see the updated Action item with {string}',
   async function (this: IHoistWorld, expectedValue: string) {
     const page = this.page!;
-    const matchingElement = page.getByRole('dialog').getByText(expectedValue, { exact: true });
-    await expect(matchingElement).toBeVisible({
-      timeout: 10000,
-    });
+    // wait for success notification
+    await page.getByText('Action Item updated.').waitFor({ state: 'visible' });
+
+    await expect(page.getByRole('dialog')).toContainText(expectedValue);
+
     console.log(`Found element with text: ${expectedValue}`);
   },
 );
