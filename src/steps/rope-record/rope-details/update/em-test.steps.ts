@@ -32,8 +32,15 @@ Then('I should be able to see the record in the Records table', async function (
   // save the form
   await page.getByRole('button', { name: 'Save', exact: true }).click();
 
+  // wait for the getRopeDetails to complete first
+  await Promise.all([
+    page.waitForResponse(
+      response => response.url().includes('getRopeDetails') && response.status() === 200,
+    ),
+  ]);
+
   // wait for success notification
-  await expect(page.getByText('EM test record added')).toBeVisible({ timeout: 12000 });
+  await page.getByText('EM test record added').waitFor({ state: 'visible' });
 
   // verify saved percent loss
   await expect(page.getByRole('main')).toContainText(`${savedPercentLoss}%`);

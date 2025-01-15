@@ -65,7 +65,7 @@ export class FormHelper {
     try {
       await page.locator(locator).click({ timeout: 3000 });
     } catch {
-      await page.getByText(name, { exact: true }).click({ timeout: 3000 });
+      await page.locator('label').filter({ hasText: name }).click({ timeout: 3000 });
     }
     await page.getByRole('option', { name: value }).click({ timeout: 3000 });
   }
